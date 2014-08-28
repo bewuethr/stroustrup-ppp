@@ -733,7 +733,7 @@ Pseudo_window::Pseudo_window(Point xy, int ww, int hh, string lab)
      win_name(Point(xy.x+8,xy.y+22),lab),
      ctrl(Point(xy.x+ww-26,xy.y+4),22,22,3),
      bg(Point(xy.x+4,xy.y+32),Point(xy.x+ww-4,xy.y+hh-4)),
-     content(Point(xy.x+4,xy.y+32),"Rita_path.gif")
+     content(Point(xy.x+4,xy.y+32),"pics_and_txt/Rita_path.gif")
 {
     set_color(Color::invisible);
     set_fill_color(Color::blue);
