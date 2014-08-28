@@ -1,6 +1,7 @@
-// Modify calculator: reads from In_box, writes to Out_box
+// Chapter 16 exercise 09: modify calculator to read from In_box and write to
+// Out_box
 
-#include "../Simple_window.h"
+#include "../lib_files/Simple_window.h"
 //#include "Graph.h"
 
 int main()

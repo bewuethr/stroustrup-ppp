@@ -9,7 +9,7 @@
 
 #include "GUI.h"    // for Simple_window only (doesn't really belong in Window.h)
 #include "Graph.h"
-#include "chapter16/chapter16_ex09_calc.h"    // calculator facilities
+#include "../chapter16/chapter16_ex09_calc.h"    // calculator facilities
 
 using namespace Graph_lib;
 
