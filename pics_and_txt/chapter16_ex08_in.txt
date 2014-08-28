@@ -1,0 +1,5 @@
+# Format: lines are CAD, CHF, KYD, and columns the same
+# (i,j) has the value of one "i" in currency "j"
+1.00 0.84 0.76
+1.19 1.00 0.91
+1.31 1.10 1.00

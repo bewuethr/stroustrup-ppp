@@ -133,7 +133,7 @@ Imagebutton_window::Imagebutton_window(Point xy, int w, int h, const string& tit
     :Window(xy,w,h,title),
     quit_button(Point(x_max()-70,0),70,20,"Quit",cb_quit),
     image_button(Point(rint(0,x_max()-100),rint(0,y_max()-100)),100,100,"",cb_ibpushed),
-    button_image(image_button.loc,"snow_cpp.gif")
+    button_image(image_button.loc,"pics_and_txt/snow_cpp.gif")
 {
     attach(quit_button);
     attach(image_button);
@@ -302,7 +302,7 @@ Currency_window::Currency_window(Point xy, int w, int h, const string& title)
 
 void Currency_window::get_conversion_rates()
 {
-    const string fname = "chapter16_ex08_in.txt";
+    const string fname = "pics_and_txt/chapter16_ex08_in.txt";
     ifstream ifs(fname.c_str());
     if (!ifs) error("can't open ",fname);
 
