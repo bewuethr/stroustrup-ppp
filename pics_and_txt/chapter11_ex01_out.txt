@@ -1,0 +1,303 @@
+txt2html/html::texttohtml sample conversion
+
+this sample is based hugely on the original sample.txt produced
+by seth golub for txt2html.
+
+i used the following options to convert this document:
+
+     -titlefirst -mailmode -make_tables
+     --custom_heading_regexp '^ *--[\w\s]+-- *$'
+     --system_link_dict txt2html.dict
+     --append_body sample.foot --infile sample.txt --outfile sample.html
+
+this has either been done at the command line with:
+
+	perl -mhtml::texttohtml -e run_txt2html -- *options*
+
+or using the script
+
+	txt2html *options*
+
+or from a (test) perl script with:
+	
+	use html::texttohtml;
+	my $conv = new html::texttohtml();
+	$conv->txt2html([*options*]);
+
+======================================================================
+
+from bozo@clown.wustl.edu
+return-path: <bozo@clown.wustl.edu>
+message-id: <9405102200.aa04736@clown.wustl.edu>
+content-length: 1070
+from: bozo@clown.wustl.edu (bozo the clown)
+to: kitty@example.com (kathryn andersen)
+subject: re: html::texttohtml
+date: sun, 12 may 2002 10:01:10 -0500
+
+bozo wrote:
+btc> can you post an example text file with its html'ed output?
+btc> that would provide a much better first glance at what it does
+btc> without having to look through and see what the perl code does.
+
+good idea.  i'll write something up.
+
+       -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+the header lines were kept separate because they looked like mail
+headers and i have mailmode on.  the same thing applies to bozo's
+quoted text.  mailmode doesn't screw things up very often, but since
+most people are usually converting non-mail, it's off by default.
+
+paragraphs are handled ok.  in fact, this one is here just to
+demonstrate that.
+
+this line is very important!
+(ok, it wasn't *that* important)
+
+
+example header
+==============
+
+since this is the first header noticed (all caps, underlined with an
+"="), it will be a level 1 header.  it gets an anchor named
+"section_1".
+
+another example
+===============
+this is the second type of header (not all caps, underlined with "=").
+it gets an anchor named "section_1_1".
+
+yet another example
+===================
+
+this header was in the same style, so it was assigned the same header
+tag.  note the anchor names in the html. (you probably can't see them
+in your current document view.)  its anchor is named "section_1_2". 
+get the picture?
+
+
+
+                    -- this is a custom header --
+
+you can define your own custom header patterns if you know what your
+documents look like.
+
+
+
+features of html::texttohtml
+============================
+
+ * handles different kinds of lists
+   1. bulleted
+   2. numbered
+      - you can nest them as far as you want.
+      - it's pretty decent about figuring out which level of list it
+        is supposed to be on.
+        - you don't need to change bullet markers to start a new list.
+   3. lettered
+      a. finally handles lettered lists
+      b. upper and lower case both work
+         a) here's an example
+         b) i've been meaning to add this for some time.
+      c. html without css can't specify how ordered lists should be
+        indicated, so it will be a numbered list in most browsers.
+   4. definition lists (see below)
+ * doesn't screw up mail-ish things
+ * spots preformated text
+
+                 it just needs to have enough whitespace in the line.
+        surrounding blank lines aren't necessary.  if it sees enough
+        whitespace in a line, it preformats it.  how much is enough?
+        set it yourself at command line if you want.
+
+ * you can append a file automatically to all converted files.  this
+   is handy for adding signatures to your documents.
+
+ * deals with paragraphs decently.
+
+   looks for short lines in the middle of paragraphs and keeps them
+   short with the use of breaks (<br>).  how short the lines need to
+   be is configurable.
+
+   unhyphenates split words that are in the middle of para-
+   graphs.  let me know if trailing punctuation isn't handled "prop-
+   erly".  it should be.
+
+   one can also have multi-paragraph list items, like this one.
+
+ * puts anchors at all headers and, if you're using the mail header
+   features, at the beginning of each mail message.  the anchor names
+   for headings are based on guessed section numbers.  
+   - you can turn off this option too, if you don't like it.
+
+ * groks mosaic-style "formatted text" headers (like the one below)
+
+ * can hyperlink things according to a dictionary file.
+   the sample dictionary handles urls like http://www.aigeek.com/ and
+   <http://www.katspace.com/> and also shows how to do simpler
+   things such as linking the word txt2html the first time it appeared.
+ * one can also use the link-dictionary to define custom tags, for
+   example using the star character to indicate *italics*.
+
+ * recognises and parses tables of different types:
+   o delim: a table determined by delimiters.
+   o align: no need for fancy delimiters, this figures out
+     a table by looking at the layout, the spacing of the cells.
+   o border: has a nice border around the table
+   o pgsql: the same format as postgresql query results.
+
+ * also with xhtml!  turn on the --xhtml option and it will ensure that
+   all paragraphs and list items have end-tags, all tags are in
+   lower-case, and the doctype is for xhtml.
+
+example of short lines
+----------------------
+
+we're the knights of the round table
+we dance whene'er we're able
+we do routines and chorus scenes
+with footwork impeccable.
+we dine well here in camelot
+we eat ham and jam and spam a lot.
+
+example of varied formatting
+----------------------------
+
+if i want to *emphasize* something, then i'd use stars to wrap
+around the words, *even if there were more than one*, *that's*
+what i'd do.  but i could also _underline_ words, so long as
+the darn thing was not a_variable_name, in which case i wouldn't
+want to lose the underscores in something which thought it was
+underlining.  though we might want to _underline more than one word_
+in a sentence.  especially if it is _the title of a book_.
+for another kind of emphasis, let's go and #put something in bold#.
+   but it doesn't even need to be that simple. something which is *really
+exciting* is coping with italics and similar things *spread across
+multiple lines*.
+
+example of long preformatting
+-----------------------------
+
+(extract from let it rain by kristen hall)
+
+	i have given, i have given and got none
+	still i'm driven by something i can't explain
+	it's not a cross, it is a choice
+	i cannot help but hear his voice
+	i only wish that i could listen without shame
+
+	let it rain, let it rain, on me
+	let it rain, oh let it rain,
+	let it rain, on me
+
+	i have been a witness to the perfect crime
+	wipe the grin off of my face to hide the pain
+	it isn't worth the tears you cry
+	to have a perfect alibi
+	now i'm beaten at the hands of my own game
+
+	let it rain, let it rain, on me
+	let it rain, oh let it rain,
+	let it rain, on me
+
+definition lists
+----------------
+
+a definition list comprises the following:
+
+term:
+  the term part of a dl item is a word on a line by itself, ending
+with a colon.
+definition:
+the definition part of a dl item is at least one paragraph following
+the term.
+
+  if one has more than one paragraph in the definition, the first line of
+the next paragraph needs to be indented two spaces from where the term
+starts, otherwise we don't know that it belongs to the definition.
+
+examples of tables
+------------------
+
+align
+~~~~~
+
+here is a simple align table:
+
+    -e  file exists.
+    -z  file has zero size.
+    -s  file has nonzero size (returns size).
+
+here are some of the conditions of align tables:
+
+  #context:#  a table needs to be surrounded by blank lines.
+   #length:#  a table must contain at least two rows.
+    #width:#  a table must contain at least two columns.
+  #spacing:#  there needs to be at least two spaces between the columns,
+              otherwise there might be some random paragraph which
+              could have inter-word spacing that lined up by accident.
+#cell size:#  if you have more than one line (as just above) then
+              you will simply get empty cells where the other column is empty.
+#alignment:#  alignment of cells is attempted to be preserved.
+
+border
+~~~~~~
+
+this is a table with a border.
+
+	+---------+-----+
+	| food    | qty |
+	+---------+-----+
+	| bread   |   1 |
+	| milk    |   1 |
+	| oranges |   3 |
+	| apples  |   6 |
+	+---------+-----+
+
+pgsql
+~~~~~~
+
+this is the same table like postgresql would make it.
+
+	 food    | qty 
+	---------+-----
+	 bread   |   1 
+	 milk    |   1 
+	 oranges |   3 
+	 apples  |   6 
+	(4 rows)
+
+delim
+~~~~~
+
+a delimited table needs to have its delimiters at the start and end,
+just to be sure that this is a table.
+
+:fred:nurk:58:
+:george:washington:62:
+:mary:quant:35:
+
+and one can have almost any delimiter one wishes.
+
+| darcy, fitzwilliam | hero    |
+| bennet, elizabeth  | heroine |
+| wickham, george    | villain |
+
+things to do
+============
+
+there are some things which this module doesn't handle yet which
+i would like to implement.
+
+a. i would like to be able to preserve lettered lists, that is:
+   a) recognise that they are letters and not numbers (which it already
+      does)
+   b) display the correct ol properties with css so as to preserve
+      that information.
+
+----------------------------------------
+
+the footer is everything from the end of this sentence to the
+</body> tag.
+

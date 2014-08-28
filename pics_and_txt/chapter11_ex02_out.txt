@@ -1,0 +1,303 @@
+txt2html/HTML::TxtTHTML Smpl Cnvrsn
+
+Ths smpl s bsd hgly n th rgnl smpl.txt prdcd
+by Sth Glb fr txt2html.
+
+sd th fllwng ptns t cnvrt ths dcmnt:
+
+     -ttlfrst -mlmd -mk_tbls
+     --cstm_hdng_rgxp '^ *--[\w\s]+-- *$'
+     --systm_lnk_dct txt2html.dct
+     --ppnd_bdy smpl.ft --nfl smpl.txt --tfl smpl.html
+
+Ths hs thr bn dn t th cmmnd ln wth:
+
+	prl -MHTML::TxtTHTML - rn_txt2html -- *ptns*
+
+r sng th scrpt
+
+	txt2html *ptns*
+
+r frm (tst) prl scrpt wth:
+	
+	s HTML::TxtTHTML;
+	my $cnv = nw HTML::TxtTHTML();
+	$cnv->txt2html([*ptns*]);
+
+======================================================================
+
+Frm bz@clwn.wstl.d
+Rtrn-Pth: <bz@clwn.wstl.d>
+Mssg-d: <9405102200.04736@clwn.wstl.d>
+Cntnt-Lngth: 1070
+Frm: bz@clwn.wstl.d (Bz th Clwn)
+T: ktty@xmpl.cm (Kthryn ndrsn)
+Sbjct: R: HTML::TxtTHTML
+Dt: Sn, 12 My 2002 10:01:10 -0500
+
+Bz wrt:
+BtC> Cn y pst n xmpl txt fl wth ts html'd tpt?
+BtC> Tht wld prvd mch bttr frst glnc t wht t ds
+BtC> wtht hvng t lk thrgh nd s wht th prl cd ds.
+
+Gd d.  'll wrt smthng p.
+
+       -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+Th hdr lns wr kpt sprt bcs thy lkd lk ml
+hdrs nd hv mlmd n.  Th sm thng ppls t Bz's
+qtd txt.  Mlmd dsn't scrw thngs p vry ftn, bt snc
+mst ppl r slly cnvrtng nn-ml, t's ff by dflt.
+
+Prgrphs r hndld k.  n fct, ths n s hr jst t
+dmnstrt tht.
+
+THS LN S VRY MPRTNT!
+(k, t wsn't *tht* mprtnt)
+
+
+XMPL HDR
+==============
+
+Snc ths s th frst hdr ntcd (ll cps, ndrlnd wth n
+"="), t wll b lvl 1 hdr.  t gts n nchr nmd
+"sctn_1".
+
+nthr xmpl
+===============
+Ths s th scnd typ f hdr (nt ll cps, ndrlnd wth "=").
+t gts n nchr nmd "sctn_1_1".
+
+Yt nthr xmpl
+===================
+
+Ths hdr ws n th sm styl, s t ws ssgnd th sm hdr
+tg.  Nt th nchr nms n th HTML. (Y prbbly cn't s thm
+n yr crrnt dcmnt vw.)  ts nchr s nmd "sctn_1_2". 
+Gt th pctr?
+
+
+
+                    -- Ths s cstm hdr --
+
+Y cn dfn yr wn cstm hdr pttrns f y knw wht yr
+dcmnts lk lk.
+
+
+
+Ftrs f HTML::TxtTHTML
+============================
+
+ * Hndls dffrnt knds f lsts
+   1. Blltd
+   2. Nmbrd
+      - Y cn nst thm s fr s y wnt.
+      - t's prtty dcnt bt fgrng t whch lvl f lst t
+        s sppsd t b n.
+        - Y dn't nd t chng bllt mrkrs t strt nw lst.
+   3. Lttrd
+      . Fnlly hndls lttrd lsts
+      B. ppr nd lwr cs bth wrk
+         ) Hr's n xmpl
+         b) 'v bn mnng t dd ths fr sm tm.
+      C. HTML wtht CSS cn't spcfy hw rdrd lsts shld b
+        ndctd, s t wll b nmbrd lst n mst brwsrs.
+   4. Dfntn lsts (s blw)
+ * Dsn't scrw p ml-sh thngs
+ * Spts prfrmtd txt
+
+                 t jst nds t hv ngh whtspc n th ln.
+        Srrndng blnk lns rn't ncssry.  f t ss ngh
+        whtspc n ln, t prfrmts t.  Hw mch s ngh?
+        St t yrslf t cmmnd ln f y wnt.
+
+ * Y cn ppnd fl tmtclly t ll cnvrtd fls.  Ths
+   s hndy fr ddng sgntrs t yr dcmnts.
+
+ * Dls wth prgrphs dcntly.
+
+   Lks fr shrt lns n th mddl f prgrphs nd kps thm
+   shrt wth th s f brks (<BR>).  Hw shrt th lns nd t
+   b s cnfgrbl.
+
+   nhyphnts splt wrds tht r n th mddl f pr-
+   grphs.  Lt m knw f trlng pncttn sn't hndld "prp-
+   rly".  t shld b.
+
+   n cn ls hv mlt-prgrph lst tms, lk ths n.
+
+ * Pts nchrs t ll hdrs nd, f y'r sng th ml hdr
+   ftrs, t th bgnnng f ch ml mssg.  Th nchr nms
+   fr hdngs r bsd n gssd sctn nmbrs.  
+   - Y cn trn ff ths ptn t, f y dn't lk t.
+
+ * Grks Msc-styl "frmttd txt" hdrs (lk th n blw)
+
+ * Cn hyprlnk thngs ccrdng t dctnry fl.
+   Th smpl dctnry hndls RLs lk http://www.gk.cm/ nd
+   <http://www.ktspc.cm/> nd ls shws hw t d smplr
+   thngs sch s lnkng th wrd txt2html th frst tm t pprd.
+ * n cn ls s th lnk-dctnry t dfn cstm tgs, fr
+   xmpl sng th str chrctr t ndct *tlcs*.
+
+ * Rcgnss nd prss tbls f dffrnt typs:
+   DLM: tbl dtrmnd by dlmtrs.
+   LGN: N nd fr fncy dlmtrs, ths fgrs t
+     tbl by lkng t th lyt, th spcng f th clls.
+   BRDR: hs nc brdr rnd th tbl
+   PGSQL: th sm frmt s Pstgrsql qry rslts.
+
+ * ls wth XHTML!  Trn n th --xhtml ptn nd t wll nsr tht
+   ll prgrphs nd lst tms hv nd-tgs, ll tgs r n
+   lwr-cs, nd th dctyp s fr XHTML.
+
+xmpl f shrt lns
+----------------------
+
+W'r th knghts f th rnd tbl
+W dnc whn'r w'r bl
+W d rtns nd chrs scns
+Wth ftwrk mpccbl.
+W dn wll hr n Cmlt
+W t hm nd jm nd spm lt.
+
+xmpl f vrd frmttng
+----------------------------
+
+f wnt t *mphsz* smthng, thn 'd s strs t wrp
+rnd th wrds, *vn f thr wr mr thn n*, *tht's*
+wht 'd d.  Bt cld ls _ndrln_ wrds, s lng s
+th drn thng ws nt _vrbl_nm, n whch cs wldn't
+wnt t ls th ndrscrs n smthng whch thght t ws
+ndrlnng.  Thgh w mght wnt t _ndrln mr thn n wrd_
+n sntnc.  spclly f t s _Th Ttl f Bk_.
+Fr nthr knd f mphss, lt's g nd #pt smthng n bld#.
+   Bt t dsn't vn nd t b tht smpl. Smthng whch s *rlly
+xctng* s cpng wth tlcs nd smlr thngs *sprd crss
+mltpl lns*.
+
+xmpl f Lng Prfrmttng
+-----------------------------
+
+(xtrct frm Lt t Rn by Krstn Hll)
+
+	hv gvn, hv gvn nd gt nn
+	Stll 'm drvn by smthng cn't xpln
+	t's nt crss, t s chc
+	cnnt hlp bt hr hs vc
+	nly wsh tht cld lstn wtht shm
+
+	Lt t rn, lt t rn, n m
+	Lt t rn, h lt t rn,
+	Lt t rn, n m
+
+	hv bn wtnss t th prfct crm
+	Wp th grn ff f my fc t hd th pn
+	t sn't wrth th trs y cry
+	T hv prfct lb
+	Nw 'm btn t th hnds f my wn gm
+
+	Lt t rn, lt t rn, n m
+	Lt t rn, h lt t rn,
+	Lt t rn, n m
+
+Dfntn Lsts
+----------------
+
+dfntn lst cmprss th fllwng:
+
+Trm:
+  Th trm prt f DL tm s wrd n ln by tslf, ndng
+wth cln.
+Dfntn:
+Th dfntn prt f DL tm s t lst n prgrph fllwng
+th trm.
+
+  f n hs mr thn n prgrph n th dfntn, th frst ln f
+th nxt prgrph nds t b ndntd tw spcs frm whr th trm
+strts, thrws w dn't knw tht t blngs t th dfntn.
+
+xmpls f Tbls
+------------------
+
+LGN
+~~~~~
+
+Hr s smpl LGN tbl:
+
+    -  Fl xsts.
+    -z  Fl hs zr sz.
+    -s  Fl hs nnzr sz (rtrns sz).
+
+Hr r sm f th cndtns f LGN tbls:
+
+  #Cntxt:#  tbl nds t b srrndd by blnk lns.
+   #Lngth:#  tbl mst cntn t lst tw rws.
+    #Wdth:#  tbl mst cntn t lst tw clmns.
+  #Spcng:#  Thr nds t b t lst tw spcs btwn th clmns,
+              thrws thr mght b sm rndm prgrph whch
+              cld hv ntr-wrd spcng tht lnd p by ccdnt.
+#Cll Sz:#  f y hv mr thn n ln (s jst bv) thn
+              y wll smply gt mpty clls whr th thr clmn s mpty.
+#lgnmnt:#  lgnmnt f clls s ttmptd t b prsrvd.
+
+BRDR
+~~~~~~
+
+Ths s tbl wth brdr.
+
+	+---------+-----+
+	| Fd    | Qty |
+	+---------+-----+
+	| Brd   |   1 |
+	| Mlk    |   1 |
+	| rngs |   3 |
+	| ppls  |   6 |
+	+---------+-----+
+
+PGSQL
+~~~~~~
+
+Ths s th sm tbl lk Pstgrsql wld mk t.
+
+	 Fd    | Qty 
+	---------+-----
+	 Brd   |   1 
+	 Mlk    |   1 
+	 rngs |   3 
+	 ppls  |   6 
+	(4 rws)
+
+DLM
+~~~~~
+
+dlmtd tbl nds t hv ts dlmtrs t th strt nd nd,
+jst t b sr tht ths s tbl.
+
+:Frd:Nrk:58:
+:Grg:Wshngtn:62:
+:Mry:Qnt:35:
+
+nd n cn hv lmst ny dlmtr n wshs.
+
+| Drcy, Ftzwllm | hr    |
+| Bnnt, lzbth  | hrn |
+| Wckhm, Grg    | vlln |
+
+THNGS T D
+============
+
+Thr r sm thngs whch ths mdl dsn't hndl yt whch
+wld lk t mplmnt.
+
+. wld lk t b bl t prsrv lttrd lsts, tht s:
+   ) rcgns tht thy r lttrs nd nt nmbrs (whch t lrdy
+      ds)
+   b) dsply th crrct L prprts wth CSS s s t prsrv
+      tht nfrmtn.
+
+----------------------------------------
+
+Th ftr s vrythng frm th nd f ths sntnc t th
+</BDY> tg.
+
