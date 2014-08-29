@@ -1,0 +1,6 @@
+12 hello12 34foo 10f beard
+100.10 bad
+nnn
+sdd 112 23 14
+77a 145 -10000 d
+1212
