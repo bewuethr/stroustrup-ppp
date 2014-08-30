@@ -5,4 +5,6 @@ Exercises from Stroustrup's ["Programming - Principles and Practice Using C++" (
 
 I was working with Visual Studio 2013 Express for Chapters 1-18, then I changed to [Code::Blocks](http://www.codeblocks.org). Everything I've uploaded here was tested to compile in Code::Blocks using [MinGW](http://www.mingw.org) GCC 4.8.1.
 
+For Chapter 1 and 2, I just went along and changed the same file over and over, so these solutions are not here.
+
 Chapters 12-16 deal with GUI/graphics and use [FLTK](http://www.fltk.org/index.php). The actual work there is not in the files containing `main`, but in Graph.cpp, GUI.cpp and Simple_window.cpp.
