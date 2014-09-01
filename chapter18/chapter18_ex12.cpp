@@ -58,7 +58,7 @@ void wumpus_loop() {
                 }
             }
             else {
-                Game_stte gs = c.shoot_arrow();
+                Game_state gs = c.shoot_arrow();
                 switch (gs) {
                 case plr_shot:
                     cout << "Ouch! Arrow got you!\n"
