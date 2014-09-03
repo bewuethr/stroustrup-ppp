@@ -97,5 +97,5 @@ Conventions
 
 Feedback
 
-    Support site of the book: http://www.stroustrup.com/Programming/
+    Support site of the book: http://www.stroustrup.com/Programming/PPP1.html
     Please send all the comments to me at bs@cs.tamu.edu
