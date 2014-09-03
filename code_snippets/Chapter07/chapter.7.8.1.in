@@ -1,0 +1,5 @@
+let x = 3.4;
+let y = 2;
+let z1 = x + y * 2;
+let z2 = x+y*2;
+q

@@ -1,0 +1,8 @@
+Don't look too hard at the code (unless you really want to and are willing to
+risk a headache). We present the code simply to give you the flavor of some 
+real-world and useful bit manipulation code. If you want to make a study of 
+encryption, you need a separate textbook for that. For more information and 
+variants of the algorithm in other languages, see its website 
+http://www.simonshepherd.supanet.com/tea.htm by Prof. Simon Shepherd, 
+Bradford University, England. The code is not meant to be self-explanatory
+(no comments!).

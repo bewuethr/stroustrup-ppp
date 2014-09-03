@@ -1,0 +1,30 @@
+    xxx
+      xxx
+----
+From: John Doe <jdoe@machine.example>
+To: Mary Smith <mary@example.net>
+Subject: Saying Hello
+Date: Fri, 21 Nov 1997 09:55:06 -0600
+Message-ID: <1234@local.machine.example>
+
+This is a message just to say hello.
+So, "Hello".
+----
+From: Joe Q. Public <john.q.public@example.com>
+To: Mary Smith <@machine.tld:mary@example.net>, , jdoe@test   .example
+Date: Tue, 1 Jul 2003 10:52:37 +0200
+Message-ID: <5678.21-Nov-1997@example.com>
+
+Hi everyone.
+----
+To: "Mary Smith: Personal Account" <smith@home.example>
+From: John Doe <jdoe@machine.example>
+Subject: Re: Saying Hello
+Date: Fri, 21 Nov 1997 11:00:00 -0600
+Message-ID: <abcd.1234@local.machine.tld>
+In-Reply-To: <3456@example.net>
+References: <1234@local.machine.example> <3456@example.net>
+
+This is a reply to your reply.
+----
+    ----

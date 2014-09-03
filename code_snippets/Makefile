@@ -1,0 +1,97 @@
+#
+# This is a common Makefile for code examples from the book
+# "Programming -- Principles and Practice Using C++" by Bjarne Stroustrup
+#
+
+#
+# Usage:
+#     make        - Build all examples
+#     make clean  - Clean all examples
+#     make test   - Run the test suite
+#
+
+DIVIDER=----------------------------------------------
+default:
+	@(echo $(DIVIDER); cd Chapter02; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter03; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter04; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter05; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter06; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter07; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter08; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter09; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter10; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter11; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter12; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter13; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter14; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter15; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter16; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter17; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter18; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter19; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter20; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter21; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter22; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter23; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter24; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter25; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter26; $(MAKE) -k )
+	@(echo $(DIVIDER); cd Chapter27; $(MAKE) -k )
+
+clean:
+	@(echo $(DIVIDER); cd GUI;       $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter02; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter03; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter04; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter05; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter06; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter07; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter08; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter09; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter10; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter11; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter12; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter13; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter14; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter15; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter16; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter17; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter18; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter19; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter20; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter21; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter22; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter23; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter24; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter25; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter26; $(MAKE) -k clean)
+	@(echo $(DIVIDER); cd Chapter27; $(MAKE) -k clean)
+
+test:
+	@(echo $(DIVIDER); cd Chapter02; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter03; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter04; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter05; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter06; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter07; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter08; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter09; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter10; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter11; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter12; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter13; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter14; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter15; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter16; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter17; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter18; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter19; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter20; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter21; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter22; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter23; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter24; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter25; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter26; $(MAKE) -k test)
+	@(echo $(DIVIDER); cd Chapter27; $(MAKE) -k test)
