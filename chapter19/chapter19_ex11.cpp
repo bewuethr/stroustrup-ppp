@@ -140,6 +140,19 @@ try {
     for (int i = 0; i<10; ++i)
         cout << "refcount[" << i << "]: " << vcp[i].count() << "\n";
     vcp.resize(0,counted_ptr<String>(""));
+
+    // redirecting counted_ptr
+    counted_ptr<Tracer> cp1(Tracer(5));
+    counted_ptr<Tracer> cp2(cp1);
+    counted_ptr<Tracer> cp3(Tracer(6));
+    counted_ptr<Tracer> cp4(cp3);
+    cout << "cp1 refcount: " << cp1.count() << "\n";
+    cout << "cp3 refcount: " << cp3.count() << "\n";
+    cp3 = cp1;
+    cout << "cp1 refcount: " << cp1.count() << "\n";
+    cout << "cp4 refcount: " << cp4.count() << "\n";
+    cp4 = cp1;  // destroys Tracer(6) object
+    cout << "cp1 refcount: " << cp1.count() << "\n";
 }
 catch (exception& e) {
     cerr << "exception: " << e.what() << endl;
