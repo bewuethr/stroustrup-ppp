@@ -1,5 +1,6 @@
-// Function grapher: user can choose among a set of functions (e.g., sin() and
-// log(), provide parameters for those functions and then graph them
+// Chapter 16, exercise 10: function grapher: user can choose among a set of
+// functions (e.g., sin() and log(), provide parameters for those functions and
+// then graph them
 
 #include "Simple_window.h"
 #include "Graph.h"
