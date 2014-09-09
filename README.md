@@ -7,4 +7,4 @@ I was working with Visual Studio 2013 Express for Chapters 1-18, then I changed 
 
 Chapter 1 has no programming exercises, and for Chapter 2 I just went along and changed the same file over and over, so these solutions are not here.
 
-Chapters 12-16 deal with GUI/graphics and use [FLTK](http://www.fltk.org/index.php). The actual work there is not in the files containing `main`, but in lib\_files/Graph.cpp, lib\_files/GUI.cpp and lib\_files/Simple_window.cpp.
+Chapters 12-16 deal with GUI/graphics and use [FLTK](http://www.fltk.org/index.php). The actual work there is not in the files containing `main`, but in lib\_files/Graph.cpp and lib\_files/Simple_window.cpp.
