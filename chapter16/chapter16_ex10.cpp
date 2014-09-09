@@ -2,8 +2,8 @@
 // functions (e.g., sin() and log(), provide parameters for those functions and
 // then graph them
 
-#include "Simple_window.h"
-#include "Graph.h"
+#include "../lib_files/Simple_window.h"
+#include "../lib_files/Graph.h"
 
 int main()
 try {
