@@ -48,11 +48,15 @@ private:
     // widgets
     Multiline_out_box output;
     In_box input;
-    Button ok_button;   // TODO (Benjamin#1#): Add keyboard binding to enter key
-    // TODO (Benjamin#1#): Add instructions button
+    Button ok_button;
+    Button show_instr_button;
+    Button hide_instr_button;
+    Multiline_out_box instr_box;
 
     // actions invoked by callbacks
     void ok_pressed();
+    void show_instr_pressed();
+    void hide_instr_pressed();
 
     // other functions
     void get_s_or_m();      // get 's' or 'm' from input
@@ -63,9 +67,13 @@ private:
 
     // callbacks
     static void cb_okpushed(Address, Address pw) { reference_to<Wumpus_window>(pw).ok_pressed(); }
+    static void cb_showinstrpushed(Address, Address pw) { reference_to<Wumpus_window>(pw).show_instr_pressed(); }
+    static void cb_hideinstrpushed(Address, Address pw) { reference_to<Wumpus_window>(pw).hide_instr_pressed(); }
 
     // Wumpus functionality
     Wumpus::Wumpus_engine* we;
+    Wumpus_map wm;
+    void uncloak_map();
     void reset_wumpus_engine(); // create new cave
 };
 

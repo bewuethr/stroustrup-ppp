@@ -7,9 +7,11 @@
 #ifndef GRAPH_GUARD
 #define GRAPH_GUARD 1
 
-#include <FL/fl_draw.H>
-#include <FL/Fl_Image.H>
+#include<FL/fl_draw.H>
+#include<FL/Fl_Image.H>
+
 #include "chapter19_ex14_Point.h"
+#include "chapter19_ex14_wumpus.h"
 #include "../lib_files/std_lib_facilities.h"
 
 namespace Graph_lib {;
@@ -306,6 +308,7 @@ private:
 struct Lines : Shape {                 // related lines
     void draw_lines() const;
     void add(Point p1, Point p2);      // add a line defined by two points
+    void clear_points() { Shape::clear_points(); }
 };
 
 //------------------------------------------------------------------------------
@@ -442,6 +445,32 @@ private:
 struct Bad_image : Fl_Image {
     Bad_image(int h, int w) : Fl_Image(h,w,0) { }
     void draw(int x,int y, int, int, int, int) { draw_empty(x,y); }
+};
+
+//------------------------------------------------------------------------------
+
+struct Wumpus_map : Shape {
+    Wumpus_map(Point cc, int rr, const vector<Wumpus::Room>& rooms);
+
+    void draw_lines() const;
+    void show(int idx); // show label idx and connecting tunnels
+    void set_avatar(int idx);
+    void hide_all();    // hide complete map (at restart)
+    void reset_labels(const vector<Wumpus::Room>& rooms);
+    void add_tunnel(Point p1, Point p2) { tunnels.add(p1,p2); }
+
+
+    Point center() const { return point(0); }
+    int radius() const { return rad; }
+    int lbl_radius() const { return circles[0].radius(); }
+private:
+    void set_points();
+    void set_labels(const vector<Wumpus::Room>& rooms);
+    Vector_ref<Text>* labels;
+    Vector_ref<Circle> circles;
+    Lines tunnels;
+    int rad;
+    Image avatar;
 };
 
 //------------------------------------------------------------------------------

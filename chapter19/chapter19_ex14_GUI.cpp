@@ -23,6 +23,14 @@ void Button::attach(Window& win)
 
 //------------------------------------------------------------------------------
 
+void Button::shortcut(int s)
+{
+    Fl_Button& b = reference_to<Fl_Button>(pw);
+    b.shortcut(s);
+}
+
+//------------------------------------------------------------------------------
+
 int In_box::get_int()
 {
     Fl_Input& pi = reference_to<Fl_Input>(pw);

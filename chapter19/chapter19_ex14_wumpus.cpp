@@ -2,11 +2,11 @@
 
 namespace Wumpus {;
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 Room::Room() : label(0), has_pit(false), has_bat(false) { }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 Room::Room(int n, Room* nxt0, Room* nxt1, Room* nxt2)
     : label(n), next(3), has_pit(false), has_bat(false)
@@ -16,33 +16,34 @@ Room::Room(int n, Room* nxt0, Room* nxt1, Room* nxt2)
     next[2] = nxt2;
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
-bool contains(vector<Room*> v, Room* x) {
+bool contains(vector<Room*> v, Room* x)
+{
     for (int i = 0; i<v.size(); ++i) {
         if (v[i] == x) return true;
     }
     return false;
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 Player::Player(Room* n) : location(n), n_arrows(5) { }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 Wumpus::Wumpus(Room* r) : location(r) { }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 Cave::Cave() : rooms(20), plr(0), wmp(0)
 {
     srand(time(0));
 
-    // vector of room labels, to randomize later
+    // vector of room labels
     vector<int> labels;
-    for (int i = 0; i<20; ++i) labels.push_back(i); // TODO (Benjamin#1#): Change back to push_back(i+1)
-//    random_shuffle(labels.begin(),labels.end());  // TODO (Benjamin#1#): Uncomment this to randomise cave again
+    for (int i = 0; i<20; ++i) labels.push_back(i+1);
+    random_shuffle(labels.begin(),labels.end());  // Comment out to un-randomize
 
     // set up tunnel system
     rooms[0] = Room(labels[0],&rooms[1],&rooms[4],&rooms[5]);
@@ -71,7 +72,7 @@ Cave::Cave() : rooms(20), plr(0), wmp(0)
     vector<int> room_no;
     for (int i = 0; i<20; ++i)
         room_no.push_back(i);
-//    random_shuffle(room_no.begin(),room_no.end());    // TODO (Benjamin#1#): Uncomment again to randomise
+    random_shuffle(room_no.begin(),room_no.end());    // Comment out to un-randomize
     plr.location = &rooms[room_no[0]];
     rooms[room_no[1]].has_pit = true;
     rooms[room_no[2]].has_pit = true;
@@ -80,14 +81,14 @@ Cave::Cave() : rooms(20), plr(0), wmp(0)
     wmp.location = &rooms[room_no[5]];
 
     // output for debugging
-    //cout << "Pits: " << rooms[room_no[1]].label << " and "
-    //    << rooms[room_no[2]].label << "\n";
-    //cout << "Bats: " << rooms[room_no[3]].label << " and "
-    //    << rooms[room_no[4]].label << "\n";
-    //cout << "Wumpus: " << rooms[room_no[5]].label << "\n";
+//    cout << "Pits: " << rooms[room_no[1]].label << " and "
+//        << rooms[room_no[2]].label << "\n";
+//    cout << "Bats: " << rooms[room_no[3]].label << " and "
+//        << rooms[room_no[4]].label << "\n";
+//    cout << "Wumpus: " << rooms[room_no[5]].label << "\n";
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 // if possible, move player to room with label lbl
 bool Cave::move_player(int lbl)
@@ -101,10 +102,11 @@ bool Cave::move_player(int lbl)
     else return false;
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 // check for Wumpus, pits and bats in neighbouring rooms
-string Cave::hazard_warnings() const {
+string Cave::hazard_warnings() const
+{
     ostringstream oss;
     if (plr.location->next[0] == wmp.location ||
         plr.location->next[1] == wmp.location ||
@@ -121,10 +123,11 @@ string Cave::hazard_warnings() const {
     return oss.str();
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 // give neighbouring rooms
-string Cave::room_description() const {
+string Cave::room_description() const
+{
     ostringstream oss;
     oss << "You are in room " << plr.location->label << "\n"
         << "Tunnels lead to " << plr.location->next[0]->label << ' '
@@ -133,30 +136,32 @@ string Cave::room_description() const {
     return oss.str();
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 Room* Cave::get_player_loc() const { return plr.location; }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 void Cave::bat_flight() { plr.location = &rooms[randint(20)]; }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 // wake Wumpus: stays in same room (P=0.25), move to neighbouring room (P=0.75)
-void Cave::wake_wumpus() {
+void Cave::wake_wumpus()
+{
     int n = randint(4);
-    cout << "Wumpus draw: " << n << "\n";   // TODO (Benjamin#1#): Remove or comment out
+//    cout << "Wumpus draw: " << n << "\n";   // Debugging output
     if (n==3) return;
     wmp.location = wmp.location->next[n];
 
     // output for debugging
-    cout << "Wumpus is at " << wmp.location->label << "\n";
+//    cout << "Wumpus is at " << wmp.location->label << "\n";
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
-Game_state Cave::shoot_arrow(vector<Room*> route) {
+Game_state Cave::shoot_arrow(vector<Room*> route)
+{
     // for each room, check if tunnel exists, choose random tunnel if not
     Room* arrow_loc = get_player_loc();
     for (int i = 0; i<route.size(); ++i) {
@@ -164,7 +169,7 @@ Game_state Cave::shoot_arrow(vector<Room*> route) {
             arrow_loc = route[i];
         else
             arrow_loc = arrow_loc->next[randint(3)];    // no connection
-        cout << arrow_loc->label << ' ';  // // TODO (Benjamin#1#): Remove or comment out
+//        cout << arrow_loc->label << ' ';  // debug output
 
         // check if arrow in room with player or wumpus (die/win)
         if (arrow_loc==get_wumpus_loc()) return wmp_dead;
@@ -178,20 +183,30 @@ Game_state Cave::shoot_arrow(vector<Room*> route) {
     return running;
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 Room* Cave::get_wumpus_loc() const { return wmp.location; }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 // return pointer to room with label lbl, and 0 if no such room exists
-Room* Cave::lbl_to_ptr(int lbl) {
+Room* Cave::lbl_to_ptr(int lbl)
+{
     for (int i = 0; i<20; ++i)
         if (rooms[i].label==lbl) return &rooms[i];
     return 0;
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+
+int Cave::lbl_to_idx(int lbl) const
+{
+    for (int i = 0; i<20; ++i)
+        if (rooms[i].label==lbl) return i;
+    error("lbl_to_idx() illegal label ");
+}
+
+// -----------------------------------------------------------------------------
 
 string get_instructions()
 {
@@ -227,12 +242,12 @@ string get_instructions()
         << "If the arrow hits you, you lose.\n\n"
         << "Warnings: when you are one room away from a hazard,\n"
         << "the computer says:\n"
-        << "Wumpus - I smell a Wumpus!\n"
+        << "Wumpus - 'I smell a Wumpus!'\n"
         << "Bat - 'Bats nearby!'\n"
         << "Pit - 'I feel a draft!'\n\n";
         return oss.str();
 }
 
-// ----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 
 }   // namespace Wumpus

@@ -40,6 +40,8 @@ public:
     virtual void show() { pw->show(); }
     virtual void attach(Window&) = 0;
 
+    int take_focus() { pw->take_focus(); }
+
     Point loc;
     int width;
     int height;
@@ -63,7 +65,10 @@ struct Button : Widget {
         : Widget(xy,w,h,label,cb)
     {}
 
+    void shortcut(int s);
+
     void attach(Window&);
+
 };
 
 //------------------------------------------------------------------------------

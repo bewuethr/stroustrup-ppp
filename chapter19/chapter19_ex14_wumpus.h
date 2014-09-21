@@ -53,6 +53,7 @@ public:
     Cave();
     Room* get_player_loc() const;
     Room* get_wumpus_loc() const;
+    const vector<Room>& get_rooms() const { return rooms; }
     int get_n_arrows() const { return plr.n_arrows; }
     bool move_player(int lbl);
     string hazard_warnings() const;
@@ -60,7 +61,8 @@ public:
     void bat_flight();
     void wake_wumpus();
     Game_state shoot_arrow(vector<Room*> rte);
-    Room* lbl_to_ptr(int lbl);  // convert label to Room ptr
+    Room* lbl_to_ptr(int lbl);      // convert label to Room ptr
+    int lbl_to_idx(int lbl) const;  // convert label to vector index
 private:
     vector<Room> rooms;
     Player plr;

@@ -166,7 +166,7 @@ void Polygon::draw_lines() const
 //------------------------------------------------------------------------------
 
 Regular_polygon::Regular_polygon(Point cc, int nn, int rr)
-    :n(nn),rad(rr)
+    :n(nn), rad(rr)
 {
     add(cc);
     for (int i = 0; i<nn; ++i)  // add empty points
@@ -672,6 +672,121 @@ void Image::draw_lines() const
         p->draw(point(0).x,point(0).y,w,h,cx,cy);
     else
         p->draw(point(0).x,point(0).y);
+}
+
+//------------------------------------------------------------------------------
+
+Wumpus_map::Wumpus_map(Point cc, int rr, const vector<Wumpus::Room>& rooms)
+    :labels(new Vector_ref<Text>),
+    rad(rr),
+    avatar(Point(0,0),"pics_and_txt/hunter.jpg")
+{
+    add(cc);
+    for (int i = 0; i<20; ++i)
+        add(Point());
+    set_points();
+    set_labels(rooms);
+    tunnels.set_style(Line_style(Line_style::solid,2));
+}
+
+//------------------------------------------------------------------------------
+
+void Wumpus_map::draw_lines() const
+{
+    for (int i = 0; i<labels->size(); ++i)
+        if ((*labels)[i].color().visibility()) {
+            (*labels)[i].draw();
+            circles[i].draw();
+        }
+    tunnels.draw();
+    avatar.draw();
+}
+
+//------------------------------------------------------------------------------
+
+void Wumpus_map::show(int idx)
+{
+    (*labels)[idx].set_color(Color::visible);
+}
+
+//------------------------------------------------------------------------------
+
+void Wumpus_map::set_avatar(int idx)
+{
+    Point new_loc = circles[idx].center();
+    int dx = new_loc.x-20 - avatar.point(0).x;
+    int dy = new_loc.y-20 - avatar.point(0).y;
+    avatar.move(dx,dy);
+}
+
+//------------------------------------------------------------------------------
+
+void Wumpus_map::hide_all()
+{
+    for (int i = 0; i<labels->size(); ++i)
+        (*labels)[i].set_color(Color::invisible);
+    tunnels.clear_points();
+}
+
+//------------------------------------------------------------------------------
+
+void Wumpus_map::reset_labels(const vector<Wumpus::Room>& rooms)
+{
+    delete labels;
+    labels = new Vector_ref<Text>;
+    set_labels(rooms);
+}
+
+//------------------------------------------------------------------------------
+
+void Wumpus_map::set_points()
+{
+    double dphi = 2*pi/5;  // angular increment
+
+    // innermost pentagon
+    int r1 = rad/4;     // radius for smallest pentagon
+    int r2 = 0.539*rad; // radius for center points of middle pentagon
+    int r3 = 2*rad/3;   // radius for corners of middle pentagon
+    int r4 = 0.9*rad;   // radius for outer pentagon
+    double phi1 = -pi/2;            // start at the top
+    double phi2 = pi/2 - 2*dphi;    // start at top right corner
+    for (int i = 0; i<5; ++i) {
+        // innermost pentagon
+        set_point(i+1,Point(round(center().x+r1*cos(phi1+i*dphi)),
+            round(center().y+r1*sin(phi1+i*dphi))));
+        // center points of middle pentagon
+        set_point(6+2*i,Point(round(center().x+r2*cos(phi1+i*dphi)),
+            round(center().y+r2*sin(phi1+i*dphi))));
+        // corners of middle pentagon
+        set_point(7+2*i,Point(round(center().x+r3*cos(phi2+i*dphi)),
+            round(center().y+r3*sin(phi2+i*dphi))));
+        // outer pentagon
+        set_point(16+i,Point(round(center().x+r4*cos(phi2+i*dphi)),
+            round(center().y+r4*sin(phi2+i*dphi))));
+    }
+}
+
+//------------------------------------------------------------------------------
+
+void Wumpus_map::set_labels(const vector<Wumpus::Room>& rooms)
+{
+    static const int dx = 5;
+    static const int dy = 5;
+
+    int shift = 0;  // to account for two digit labels
+
+    for (int i = 0; i<20; ++i) {
+        ostringstream oss;
+        oss << rooms[i].label;
+        shift = (rooms[i].label>9) * 4;
+        labels->push_back(new Text(Point(point(i+1).x-dx-shift,point(i+1).y+dy),
+            oss.str()));
+        (*labels)[i].set_color(Color::invisible);
+        if (circles.size() < 20) {
+            circles.push_back(new Circle(point(i+1),15));
+            circles[i].set_style(Line_style(Line_style::solid,2));
+        }
+    }
 }
 
 //------------------------------------------------------------------------------

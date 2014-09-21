@@ -71,13 +71,29 @@ Wumpus_window::Wumpus_window()
     output(Point(x_max()*2/3+40,40),x_max()/3-67,140,""),
     input(Point(x_max()*2/3+40,140+55),263,20,Wumpus::shoot_or_move_str),
     ok_button(Point(x_max()-97,140+55),70,20,"OK",cb_okpushed),
-    we(new Wumpus::Wumpus_engine())
+    show_instr_button(Point(x_max()-200,0),130,20,"Show instructions",cb_showinstrpushed),
+    hide_instr_button(Point(x_max()-200,0),130,20,"Hide instructions",cb_hideinstrpushed),
+    instr_box(Point(x_max()*2/3+40,230),x_max()/3-67,560,""),
+    we(new Wumpus::Wumpus_engine()),
+    wm(Point(x_max()/3,y_max()/2),y_max()/2-15,we->c.get_rooms())
 {
     attach(output);
     output.set_textsize(12);
     output.put(we->c.hazard_warnings() + we->c.room_description());
+    uncloak_map();
     attach(input);
+    input.take_focus();
     attach(ok_button);
+    ok_button.shortcut(FL_Enter);
+    attach(show_instr_button);
+    attach(hide_instr_button);
+    hide_instr_button.hide();
+    attach(instr_box);
+    instr_box.set_textsize(11);
+    instr_box.put(Wumpus::get_instructions());
+    instr_box.hide();
+    wm.set_avatar(we->c.lbl_to_idx(we->c.get_player_loc()->label));
+    attach(wm);
 }
 
 //------------------------------------------------------------------------------
@@ -106,6 +122,25 @@ void Wumpus_window::ok_pressed()
         error("Illegal Game_state");
         break;
     }
+    input.take_focus();
+}
+
+//------------------------------------------------------------------------------
+
+void Wumpus_window::show_instr_pressed()
+{
+    instr_box.show();
+    show_instr_button.hide();
+    hide_instr_button.show();
+}
+
+//------------------------------------------------------------------------------
+
+void Wumpus_window::hide_instr_pressed()
+{
+    instr_box.hide();
+    show_instr_button.show();
+    hide_instr_button.hide();
 }
 
 //------------------------------------------------------------------------------
@@ -137,18 +172,20 @@ void Wumpus_window::move_player()
 {
     int r = input.get_int();
     input.clear();
-    if (r<0 || r>19) {  // TODO (Benjamin#1#): Set back to 1 to 20
-        input.set_label("Number between 0 and 19:");    // TODO (Benjamin#1#): Set back to 1 to 20
+    if (r<1 || r>20) {
+        input.set_label("Number between 1 and 20:");
         redraw();
         return;
     }
     if (we->c.move_player(r)) {
+        wm.set_avatar(we->c.lbl_to_idx(we->c.get_player_loc()->label));
         ostringstream oss;  // collect strings for output
 
         // check for bat
         while (we->c.get_player_loc()->has_bat) {
             oss << "Zap - super bat snatch! Elsewhereville for you!\n";
             we->c.bat_flight();
+            wm.set_avatar(we->c.lbl_to_idx(we->c.get_player_loc()->label));
         }
 
         // check for pit
@@ -178,6 +215,7 @@ void Wumpus_window::move_player()
 
         oss << we->c.hazard_warnings() + we->c.room_description();
         output.put(oss.str());
+        uncloak_map();
         we->gs = Wumpus::shoot_or_move;
         input.set_label(Wumpus::shoot_or_move_str);
         redraw();
@@ -185,6 +223,7 @@ void Wumpus_window::move_player()
     else {
         output.put("Not possible! Choose another room.\n"
             + we->c.hazard_warnings() + we->c.room_description());
+        uncloak_map();
         input.set_label(Wumpus::where_str);
         redraw();
     }
@@ -216,8 +255,8 @@ void Wumpus_window::fire_arrow()
 {
     int n = input.get_int();
     input.clear();
-    if (n<0 || n>19) {  // TODO (Benjamin#1#): Set back to 1 to 20
-        input.set_label("Number between 0 and 19:");    // TODO (Benjamin#1#): Set back to 1 to 20
+    if (n<1 || n>20) {
+        input.set_label("Number between 1 and 20:");
         redraw();
         return;
     }
@@ -263,6 +302,7 @@ void Wumpus_window::fire_arrow()
             oss << we->c.get_n_arrows() << " arrows left\n";
             oss << we->c.hazard_warnings() + we->c.room_description();
             output.put(oss.str());
+            uncloak_map();
             we->gs = Wumpus::shoot_or_move;
             input.set_label(Wumpus::shoot_or_move_str);
             redraw();
@@ -291,10 +331,39 @@ void Wumpus_window::restart()
     }
     else if (in=="y") {
         reset_wumpus_engine();
+        wm.set_avatar(we->c.lbl_to_idx(we->c.get_player_loc()->label));
         output.put(we->c.hazard_warnings() + we->c.room_description());
+        uncloak_map();
         redraw();
     }
     return;
+}
+
+//------------------------------------------------------------------------------
+
+// show new parts of map around player location
+void Wumpus_window::uncloak_map()
+{
+    Wumpus::Room* pl = we->c.get_player_loc();
+    int pl_idx = we->c.lbl_to_idx(pl->label);
+    wm.show(pl_idx);
+
+    Point p1 = wm.point(pl_idx+1);
+    double rad = wm.lbl_radius();
+
+    for (int i = 0; i<3; ++i) {
+        int nxt_idx = we->c.lbl_to_idx(pl->next[i]->label);
+        wm.show(nxt_idx);
+
+        // draw line from circle boundary instead of center
+        Point p2 = wm.point(nxt_idx+1);
+        double length = sqrt(pow(p2.x-p1.x,2) + pow(p2.y-p1.y,2));
+        Point p3 = Point(p1.x + rad*(p2.x-p1.x)/length,
+            p1.y + rad*(p2.y-p1.y)/length);
+        Point p4 = Point(round(p2.x + rad*(p1.x-p2.x)/length),
+            round(p2.y + rad*(p1.y-p2.y)/length));
+        wm.add_tunnel(p3,p4);
+    }
 }
 
 //------------------------------------------------------------------------------
@@ -305,6 +374,8 @@ void Wumpus_window::reset_wumpus_engine()
     delete we;
     we = new Wumpus::Wumpus_engine();
     input.set_label(Wumpus::shoot_or_move_str);
+    wm.reset_labels(we->c.get_rooms());
+    wm.hide_all();
 }
 
 //------------------------------------------------------------------------------
