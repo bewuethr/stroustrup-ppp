@@ -68,15 +68,30 @@ Quit_window::Quit_window(Point xy, int w, int h, const string& title)
 
 Wumpus_window::Wumpus_window()
     :Quit_window(Point(200,50),1200,800,"Hunt the Wumpus"),
+    tag_input(Point(200,0),25,20,"Add warning to room:"),
+    pit_tag_button(Point(230,0),68,20,"Pit?",cb_pittagpushed),
+    bat_tag_button(Point(298,0),68,20,"Bat?",cb_battagpushed),
+    wmp_tag_button(Point(366,0),68,20,"Wumpus?",cb_wmptagpushed),
+    pit_excl_button(Point(230,20),68,20,"Pit!",cb_pitexclpushed),
+    bat_excl_button(Point(298,20),68,20,"Bat!",cb_batexclpushed),
+    wmp_excl_button(Point(366,20),68,20,"Wumpus!",cb_wmpexclpushed),
     output(Point(x_max()*2/3+40,40),x_max()/3-67,140,""),
     input(Point(x_max()*2/3+40,140+55),263,20,Wumpus::shoot_or_move_str),
     ok_button(Point(x_max()-97,140+55),70,20,"OK",cb_okpushed),
     show_instr_button(Point(x_max()-200,0),130,20,"Show instructions",cb_showinstrpushed),
     hide_instr_button(Point(x_max()-200,0),130,20,"Hide instructions",cb_hideinstrpushed),
     instr_box(Point(x_max()*2/3+40,230),x_max()/3-67,560,""),
+    tags(new Vector_ref<Image>),
     we(new Wumpus::Wumpus_engine()),
     wm(Point(x_max()/3,y_max()/2),y_max()/2-15,we->c.get_rooms())
 {
+    attach(tag_input);
+    attach(pit_tag_button);
+    attach(bat_tag_button);
+    attach(wmp_tag_button);
+    attach(pit_excl_button);
+    attach(bat_excl_button);
+    attach(wmp_excl_button);
     attach(output);
     output.set_textsize(12);
     output.put(we->c.hazard_warnings() + we->c.room_description());
@@ -145,17 +160,56 @@ void Wumpus_window::hide_instr_pressed()
 
 //------------------------------------------------------------------------------
 
+void Wumpus_window::tag_pressed(tag_type tt)
+{
+    int r = tag_input.get_int();
+    tag_input.clear();
+    if (r<1 || r>20) return;
+    int idx = we->c.lbl_to_idx(r);
+    if (wm.is_visible(idx)) {
+        int x = wm.point(idx+1).x;
+        int y = wm.point(idx+1).y;
+        switch (tt) {
+        case pit:
+            tags->push_back(new Image(Point(x-45,y+15),"pics_and_txt/wump_pit.jpg"));
+            break;
+        case pit_excl:
+            tags->push_back(new Image(Point(x-45,y+15),"pics_and_txt/wump_pit_conf.jpg"));
+            break;
+        case bat:
+            tags->push_back(new Image(Point(x-15,y-45),"pics_and_txt/wump_bat.jpg"));
+            break;
+        case bat_excl:
+            tags->push_back(new Image(Point(x-15,y-45),"pics_and_txt/wump_bat_conf.jpg"));
+            break;
+        case wumpus:
+            tags->push_back(new Image(Point(x+15,y+15),"pics_and_txt/wump_wump.jpg"));
+            break;
+        case wumpus_excl:
+            tags->push_back(new Image(Point(x+15,y+15),"pics_and_txt/wump_wump_conf.jpg"));
+            break;
+        default:
+            error("Illegal tag type");
+        }
+        attach((*tags)[tags->size()-1]);
+        redraw();
+    }
+    input.take_focus();
+}
+
+//------------------------------------------------------------------------------
+
 // get 's' or 'm' from input, set to move or shoot, change input label
 void Wumpus_window::get_s_or_m()
 {
     string in = input.get_string();
     input.clear();
-    if (in=="s") {
+    if (in=="s" || in=="S") {
         input.set_label("No. of rooms:");
         redraw();
         we->gs = Wumpus::shoot;
     }
-    else if (in=="m") {
+    else if (in=="m" || in=="M") {
         input.set_label(Wumpus::where_str);
         redraw();
         we->gs = Wumpus::move;
@@ -326,11 +380,15 @@ void Wumpus_window::restart()
 {
     string in = input.get_string();
     input.clear();
-    if (in=="n") {
+    if (in=="n" || in=="N") {
         hide();
     }
-    else if (in=="y") {
+    else if (in=="y" || in=="Y") {
         reset_wumpus_engine();
+        for (int i = 0; i<tags->size(); ++i)
+            detach((*tags)[i]);
+        delete tags;
+        tags = new Vector_ref<Image>;
         wm.set_avatar(we->c.lbl_to_idx(we->c.get_player_loc()->label));
         output.put(we->c.hazard_warnings() + we->c.room_description());
         uncloak_map();

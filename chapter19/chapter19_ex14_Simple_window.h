@@ -45,18 +45,29 @@ private:
 struct Wumpus_window : Quit_window {
     Wumpus_window();
 private:
+    enum tag_type { pit, bat, wumpus, pit_excl, bat_excl, wumpus_excl };
+
     // widgets
+    In_box tag_input;
+    Button pit_tag_button;
+    Button bat_tag_button;
+    Button wmp_tag_button;
+    Button pit_excl_button;
+    Button bat_excl_button;
+    Button wmp_excl_button;
     Multiline_out_box output;
     In_box input;
     Button ok_button;
     Button show_instr_button;
     Button hide_instr_button;
     Multiline_out_box instr_box;
+    Vector_ref<Image>* tags;
 
     // actions invoked by callbacks
     void ok_pressed();
     void show_instr_pressed();
     void hide_instr_pressed();
+    void tag_pressed(tag_type tt);
 
     // other functions
     void get_s_or_m();      // get 's' or 'm' from input
@@ -69,6 +80,13 @@ private:
     static void cb_okpushed(Address, Address pw) { reference_to<Wumpus_window>(pw).ok_pressed(); }
     static void cb_showinstrpushed(Address, Address pw) { reference_to<Wumpus_window>(pw).show_instr_pressed(); }
     static void cb_hideinstrpushed(Address, Address pw) { reference_to<Wumpus_window>(pw).hide_instr_pressed(); }
+    static void cb_pittagpushed(Address, Address pw) { reference_to<Wumpus_window>(pw).tag_pressed(pit); }
+    static void cb_battagpushed(Address, Address pw) { reference_to<Wumpus_window>(pw).tag_pressed(bat); }
+    static void cb_wmptagpushed(Address, Address pw) { reference_to<Wumpus_window>(pw).tag_pressed(wumpus); }
+    static void cb_pitexclpushed(Address, Address pw) { reference_to<Wumpus_window>(pw).tag_pressed(pit_excl); }
+    static void cb_batexclpushed(Address, Address pw) { reference_to<Wumpus_window>(pw).tag_pressed(bat_excl); }
+    static void cb_wmpexclpushed(Address, Address pw) { reference_to<Wumpus_window>(pw).tag_pressed(wumpus_excl); }
+
 
     // Wumpus functionality
     Wumpus::Wumpus_engine* we;

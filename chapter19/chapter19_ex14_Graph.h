@@ -459,10 +459,10 @@ struct Wumpus_map : Shape {
     void reset_labels(const vector<Wumpus::Room>& rooms);
     void add_tunnel(Point p1, Point p2) { tunnels.add(p1,p2); }
 
-
     Point center() const { return point(0); }
     int radius() const { return rad; }
     int lbl_radius() const { return circles[0].radius(); }
+    bool is_visible(int idx) const { return (*labels)[idx].color().visibility(); }
 private:
     void set_points();
     void set_labels(const vector<Wumpus::Room>& rooms);
