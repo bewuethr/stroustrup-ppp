@@ -117,7 +117,6 @@ try {
     Mini_vec<int> mv4;
     for (int i = 0; i<10; ++i)
         mv4.push_back(i);
-    cout << "mv4.size(): " << mv4.size() << "\n";
     for (int i = 0; i<mv4.size(); ++i)
         cout << mv4[i] << ' ';
     cout << "\n";
