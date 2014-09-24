@@ -71,6 +71,7 @@ public:
     {
         if (newalloc<=vec->space) return;
         Vec_rep<T>* p = new Vec_rep<T>(newalloc);
+        p->sz = vec->sz;
         for (int i = 0; i<vec->sz; ++i) p->elem[i] = vec->elem[i];
         delete vec;
         vec = p;
@@ -112,6 +113,14 @@ try {
     Mini_vec<Mini_vec<Mini_vec<int> > > mv3(100);
     cout << "sizeof vector<vector<vector<int> > >: " << sizeof(v3) << "\n";
     cout << "sizeof  Mini_vec<Mini_vec<Mini_vec<int> > >: " << sizeof(mv3) << "\n";
+
+    Mini_vec<int> mv4;
+    for (int i = 0; i<10; ++i)
+        mv4.push_back(i);
+    cout << "mv4.size(): " << mv4.size() << "\n";
+    for (int i = 0; i<mv4.size(); ++i)
+        cout << mv4[i] << ' ';
+    cout << "\n";
 }
 catch (exception& e) {
     cerr << "exception: " << e.what() << endl;
