@@ -1,4 +1,4 @@
-// Chapter 20, Try This: write a function void copy(int* f1, int* e1, int* f2)
+// Chapter 20, Try This 3: write a function void copy(int* f1, int* e1, int* f2)
 // that copies the elements of an array of ints defined by [f1:e1) into another
 // [f2:f2+(e1-f1)) using only iterator operations (no subscripting)
 

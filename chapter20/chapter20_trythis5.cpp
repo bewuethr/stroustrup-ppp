@@ -1,4 +1,4 @@
-// Chapter 20, Try This: implement push_front() for vector and compare it to
+// Chapter 20, Try This 5: implement push_front() for vector and compare it to
 // push_back().
 
 // Vector taken from Chapter 19, exercise 08
