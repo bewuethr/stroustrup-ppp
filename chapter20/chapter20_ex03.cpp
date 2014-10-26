@@ -89,6 +89,7 @@ try {
     double* jill_high_arr = high_arr(jill_arr,(*jill_data).size());
     cout << "Array: Jill's max: " << *jill_high_arr <<
         "; Jack's max: " << *jack_high_arr << "\n";
+    delete[] jill_arr;
 
     // use pointers
     double* jack_high_ptr = high_ptr(jack_data,jack_data+jack_count);
