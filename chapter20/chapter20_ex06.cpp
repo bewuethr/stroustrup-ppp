@@ -187,35 +187,38 @@ void Document::find_replace(Text_iterator first, Text_iterator last,
 {
     if (find_str=="") return;   // replace empty string - do nothing
     Text_iterator pos = find_txt(first,last,find_str);
-    if (pos==last) return;      // could not find string to be replaced
-    string::const_iterator find_it = find_str.begin();
-    string::const_iterator repl_it = repl_str.begin();
-    while (find_it!=find_str.end() && repl_it!=repl_str.end()) {
-        if (*find_it != *repl_it) {
-            *pos = *repl_it;
-            if (*find_it=='\n') {   // deleted '\n', append next line
-                concat(pos);
+    while (pos!=last) {
+        string::const_iterator find_it = find_str.begin();
+        string::const_iterator repl_it = repl_str.begin();
+        while (find_it!=find_str.end() && repl_it!=repl_str.end()) {
+            if (*find_it != *repl_it) {
+                *pos = *repl_it;
+                if (*find_it=='\n') {   // deleted '\n', append next line
+                    concat(pos);
+                }
+                if (*repl_it=='\n') break_ln(pos);  // inserted '\n', add line break
             }
-            if (*repl_it=='\n') break_ln(pos);  // inserted '\n', add line break
+            ++pos;
+            ++find_it;
+            ++repl_it;
         }
-        ++pos;
-        ++find_it;
-        ++repl_it;
-    }
 
-    // delete characters from find string in case it was longer
-    while (find_it != find_str.end()) {
-        if (*pos=='\n') concat(pos);
-        pos = erase(pos);
-        ++find_it;
-    }
+        // delete characters from find string in case it was longer
+        while (find_it != find_str.end()) {
+            if (*pos=='\n') concat(pos);
+            pos = erase(pos);
+            ++find_it;
+        }
 
-    // insert characters from replace string in case it was longer
-    while (repl_it != repl_str.end()) {
-        pos = insert(pos,*repl_it);
-        if (*repl_it=='\n') break_ln(pos);
-        ++pos;
-        ++repl_it;
+        // insert characters from replace string in case it was longer
+        while (repl_it != repl_str.end()) {
+            pos = insert(pos,*repl_it);
+            if (*repl_it=='\n') break_ln(pos);
+            ++pos;
+            ++repl_it;
+        }
+
+        pos = find_txt(pos,last,find_str);    // search next occurrence
     }
 }
 
@@ -299,6 +302,12 @@ try {
         << "\\nTHIRDLINE\\n:\n\n";
     f_str = "massa\nposuere lorem, sed placerat orci tortor quis leo.\nDonec ";
     r_str = "\nTHIRDLINE\n";
+    my_doc.find_replace(my_doc.begin(),my_doc.end(),f_str,r_str);
+    print(my_doc,my_doc.begin());
+
+    cout << "Replace 'et' with 'MARATHON' (multiple occurrences):\n\n";
+    f_str = "et";
+    r_str = "MARATHON";
     my_doc.find_replace(my_doc.begin(),my_doc.end(),f_str,r_str);
     print(my_doc,my_doc.begin());
 }
