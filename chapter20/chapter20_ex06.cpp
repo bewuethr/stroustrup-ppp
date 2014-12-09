@@ -33,6 +33,9 @@
 // separated sequences of characters" as words and one with "sequence of con-
 // secutive alphabetic characters" as words.
 
+// Exercise 10: word count program where user can specifiy the set of whitespace
+// characters
+
 #include "../lib_files/std_lib_facilities.h"
 
 typedef vector<char> Line;  // a line is a vector of characters
@@ -258,6 +261,17 @@ int char_count(Document& d)
     return ctr;
 }
 
+// count number of words in file
+int file_word_count(const string& fname)
+{
+    ifstream ifs(fname.c_str());
+    if (!ifs) error("can't open file ",fname);
+    string s;
+    int ctr = 0;
+    while (ifs>>s) ++ctr;
+    return ctr;
+}
+
 // exercise 9a: count whitespace-separated words. To take advantage of the
 // fact that reading from an istream into a string is using whitespace to
 // separate strings, first print document to file, then read from file using
@@ -275,13 +289,7 @@ int word_count1(Document& d)
     }
     ofs.close();
 
-    // read words from file
-    ifstream ifs(fname.c_str());
-    if (!ifs) error("can't open file ",fname);
-    string s;
-    int ctr = 0;
-    while (ifs>>s) ++ctr;
-    ifs.close();
+    int ctr = file_word_count(fname);
 
     // delete file and return value
     remove(fname.c_str());
@@ -305,13 +313,41 @@ int word_count2(Document& d)
     }
     ofs.close();
 
-    // read words from file
-    ifstream ifs(fname.c_str());
-    if (!ifs) error("can't open file ",fname);
-    string s;
-    int ctr = 0;
-    while (ifs>>s) ++ctr;
-    ifs.close();
+    int ctr = file_word_count(fname);
+
+    // delete file and return value
+    remove(fname.c_str());
+    return ctr;
+}
+
+// true if c is contained in white
+bool is_whitespace(char c, const string& white)
+{
+    for (int i = 0; i<white.size(); ++i) {
+        if (white[i]==c) return true;
+    }
+    return false;
+}
+
+// exercise 10: count whitespace-separated words, where whitespace is user
+// defined (the user can add to the standard whitespace characters)
+int word_count3(Document& d, const string& white)
+{
+        // write Document to file
+    Text_iterator p = d.begin();
+    string fname = "pics_and_txt/chapter20_ex09_tmp.txt";
+    ofstream ofs(fname.c_str());
+    if (!ofs) error("can't open file ",fname);
+    while (p!=d.end()) {
+        if (is_whitespace(*p,white))
+            ofs << ' ';
+        else
+            ofs << *p;
+        ++p;
+    }
+    ofs.close();
+
+    int ctr = file_word_count(fname);
 
     // delete file and return value
     remove(fname.c_str());
@@ -397,6 +433,9 @@ try {
 
     cout << "Number of words (sequences of alphabetic characters) in this "
         << "document: " << word_count2(my_doc) << "\n";
+
+    cout << "Number of words separated by whitespace or \".!'\" in this "
+        << "document: " << word_count3(my_doc,".!'") << "\n";
 }
 catch (Range_error& re) {
     cerr << "bad index: " << re.index << "\n";
