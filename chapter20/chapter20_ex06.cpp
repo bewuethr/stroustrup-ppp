@@ -1,6 +1,6 @@
 // Chapter 20, Exercise 06: write a find-and-replace operation for Documents
 // based on §20.6.2.
-
+//
 // Behaviour (functional specification)
 // - if search string is not found or empty, do nothing
 // - if both search and replacement string contain no \n, replace in line
@@ -10,7 +10,7 @@
 //   line after inserting \n
 // i.e., after search and replace, every line ends with \n, and \n is never not
 // at the end of a line
-
+//
 // Implementation (technical specification)
 // Get iterator pointing to the first character to be replaced using find_txt;
 // if it equals end() of the Document, do nothing.
@@ -25,6 +25,9 @@
 // If the search and replace strings have different lengths, finish the
 // the replacement by moving only the iterator for the longer string, folllowing
 // the same rules concerning \n.
+
+// Exercise 08: define a function that counts the number of characters in a
+// Document.
 
 #include "../lib_files/std_lib_facilities.h"
 
@@ -60,7 +63,6 @@ Text_iterator& Text_iterator::operator++()
     }
     return *this;
 }
-
 
 template<class Iter> bool match(Iter first, Iter last, const string& s)
 {
@@ -240,6 +242,18 @@ void print(Document& d, Text_iterator p)
     cout << "\n";
 }
 
+// exercise 8
+int char_count(Document& d)
+{
+    Text_iterator iter = d.begin();
+    int ctr = 0;
+    while (iter != d.end()) {
+        ++iter;
+        ++ctr;
+    }
+    return ctr;
+}
+
 int main()
 try {
     string ifname = "pics_and_txt/chapter20_ex06_in.txt";
@@ -310,6 +324,9 @@ try {
     r_str = "MARATHON";
     my_doc.find_replace(my_doc.begin(),my_doc.end(),f_str,r_str);
     print(my_doc,my_doc.begin());
+
+    cout << "Number of characters in this document: "
+        << char_count(my_doc) << "\n";
 }
 catch (Range_error& re) {
     cerr << "bad index: " << re.index << "\n";
