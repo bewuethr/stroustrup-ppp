@@ -29,6 +29,10 @@
 // Exercise 08: define a function that counts the number of characters in a
 // Document.
 
+// Exercise 09: count words in a Document. Two versions, one with "whitespace-
+// separated sequences of characters" as words and one with "sequence of con-
+// secutive alphabetic characters" as words.
+
 #include "../lib_files/std_lib_facilities.h"
 
 typedef vector<char> Line;  // a line is a vector of characters
@@ -254,6 +258,66 @@ int char_count(Document& d)
     return ctr;
 }
 
+// exercise 9a: count whitespace-separated words. To take advantage of the
+// fact that reading from an istream into a string is using whitespace to
+// separate strings, first print document to file, then read from file using
+// the >> operator
+int word_count1(Document& d)
+{
+    // write Document to file
+    Text_iterator p = d.begin();
+    string fname = "pics_and_txt/chapter20_ex09_tmp.txt";
+    ofstream ofs(fname.c_str());
+    if (!ofs) error("can't open file ",fname);
+    while (p!=d.end()) {
+        ofs << *p;
+        ++p;
+    }
+    ofs.close();
+
+    // read words from file
+    ifstream ifs(fname.c_str());
+    if (!ifs) error("can't open file ",fname);
+    string s;
+    int ctr = 0;
+    while (ifs>>s) ++ctr;
+    ifs.close();
+
+    // delete file and return value
+    remove(fname.c_str());
+    return ctr;
+}
+
+// exercise 9b: count words defined as "sequence of alphabetic characters"
+// do the same as word_count1, but when printing the temp file, replace any
+// non-alphabetic character with a space
+int word_count2(Document& d)
+{
+    // write Document to file
+    Text_iterator p = d.begin();
+    string fname = "pics_and_txt/chapter20_ex09_tmp.txt";
+    ofstream ofs(fname.c_str());
+    if (!ofs) error("can't open file ",fname);
+    while (p!=d.end()) {
+        if (isalpha(*p)) ofs << *p;
+        else ofs << ' ';
+        ++p;
+    }
+    ofs.close();
+
+    // read words from file
+    ifstream ifs(fname.c_str());
+    if (!ifs) error("can't open file ",fname);
+    string s;
+    int ctr = 0;
+    while (ifs>>s) ++ctr;
+    ifs.close();
+
+    // delete file and return value
+    remove(fname.c_str());
+    return ctr;
+}
+
 int main()
 try {
     string ifname = "pics_and_txt/chapter20_ex06_in.txt";
@@ -327,6 +391,12 @@ try {
 
     cout << "Number of characters in this document: "
         << char_count(my_doc) << "\n";
+
+    cout << "Number of words (whitespace-separated) in this document: "
+        << word_count1(my_doc) << "\n";
+
+    cout << "Number of words (sequences of alphabetic characters) in this "
+        << "document: " << word_count2(my_doc) << "\n";
 }
 catch (Range_error& re) {
     cerr << "bad index: " << re.index << "\n";
