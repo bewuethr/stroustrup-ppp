@@ -25,3 +25,13 @@
 *.depend
 *.layout
 *.cscope_file_list
+
+# Visual Studio files
+*.opensdf
+*.sdf
+*.sln
+*.suo
+*.vcxproj
+*.filters
+**/Debug
+**/Release
