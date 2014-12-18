@@ -32,6 +32,7 @@
 *.sln
 *.suo
 *.vcxproj
+*.vcxproj.user
 *.filters
 **/Debug
 **/Release
