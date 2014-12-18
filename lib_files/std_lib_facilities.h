@@ -30,8 +30,7 @@
 //------------------------------------------------------------------------------
 
 #ifdef _MSC_VER
-#include <hash_map>
-using stdext::hash_map;
+#include <unordered_map>
 #else
 #include <ext/hash_map>
 using __gnu_cxx::hash_map;
@@ -48,10 +47,6 @@ namespace __gnu_cxx {
 
 } // of namespace __gnu_cxx
 #endif
-
-//------------------------------------------------------------------------------
-
-#define unordered_map hash_map
 
 //------------------------------------------------------------------------------
 
@@ -75,14 +70,14 @@ struct Range_error : out_of_range {	// enhanced vector range error reporting
 
 
 // trivially range-checked vector (no iterator checking):
-template< class T> struct Vector : public std::vector<T> {
+template<class T> struct Vector : public std::vector<T> {
 	typedef typename std::vector<T>::size_type size_type;
 
 	Vector() { }
-	explicit Vector(size_type n) :std::vector<T>(n) {}
-	Vector(size_type n, const T& v) :std::vector<T>(n,v) {}
+	explicit Vector(size_type n) :std::vector<T>(n) { }
+	Vector(size_type n, const T& v) :std::vector<T>(n,v) { }
 	template <class I>
-	Vector(I first, I last) :std::vector<T>(first,last) {}
+	Vector(I first, I last) :std::vector<T>(first,last) { }
 
 	T& operator[](unsigned int i) // rather than return at(i);
 	{
@@ -103,10 +98,10 @@ template< class T> struct Vector : public std::vector<T> {
 struct String : std::string {
 
 	String() { }
-	String(const char* p) :std::string(p) {}
+	String(const char* p) :std::string(p) { }
 	String(const string& s) :std::string(s) {}
-	template<class S> String(S s) :std::string(s) {}
-	String(int sz, char val) :std::string(sz,val) {}
+	template<class S> String(S s) :std::string(s) { }
+	String(int sz, char val) :std::string(sz,val) { }
 	template<class Iter> String(Iter p1, Iter p2) : std::string(p1,p2) { }
 
 	char& operator[](unsigned int i) // rather than return at(i);
@@ -138,7 +133,7 @@ namespace __gnu_cxx {
 
 
 struct Exit : runtime_error {
-	Exit(): runtime_error("Exit") {}
+	Exit() :runtime_error("Exit") {}
 };
 
 // error() simply disguises throws:
