@@ -1,3 +1,6 @@
+# Windows image file caches
+Thumbs.db
+
 # Compiled Object files
 *.slo
 *.lo
