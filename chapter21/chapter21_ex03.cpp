@@ -9,7 +9,7 @@ template<class In, class T>
 int my_count(In first, In last, const T& val)
 {
     int ctr = 0;
-    while (first !=last;) {
+    while (first != last) {
         if (*first == val) ++ctr;
         ++first;
     }
@@ -30,7 +30,7 @@ try {
     int val;
     while (cin>>val) {
         if (val==-1) break;
-        int ctr = count(vi.begin(),vi.end(),val);
+        int ctr = my_count(vi.begin(),vi.end(),val);
         cout << val << " is " << ctr << " time" << (ctr!=1 ? "s " : " ")
             << "in vi.\nNext value: ";
     }
