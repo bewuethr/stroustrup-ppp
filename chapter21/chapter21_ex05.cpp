@@ -4,7 +4,6 @@
 
 #include "../lib_files/std_lib_facilities.h"
 
-
 //------------------------------------------------------------------------------
 
 // return iterator to first occurrence of val in [first,last]; if element is not
