@@ -12,7 +12,7 @@
 // Remark: merge() requires two sorted ranges to work properly; also, it doesn't
 // eliminate duplicates, which would make sense in this context. To do so, the
 // Orders could either be added to a set<Order,Sort_by_name<Order>> first or
-// they could be copied using unique_copy(). Most likey, operator== for Order
+// they could be copied using unique_copy(). Most likely, operator== for Order
 // would have to be defined for this to work.
 
 #include "../lib_files/std_lib_facilities.h"
