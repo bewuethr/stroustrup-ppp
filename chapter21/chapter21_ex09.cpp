@@ -15,7 +15,11 @@
 // they could be copied using unique_copy(). Most likely, operator== for Order
 // would have to be defined for this to work.
 
+// Exercise 10: compute the total value of the orders in the two files; the
+// of an individual Purchase is unit_price * count.
+
 #include "../lib_files/std_lib_facilities.h"
+#include<set>
 
 //------------------------------------------------------------------------------
 
@@ -302,6 +306,23 @@ try {
         Sort_by_name<Order>());
     const string ofname3 = "pics_and_txt/chapter21_ex09_out3.txt";
     write_orders_to_file(vo_merge.begin(),vo_merge.end(),ofname3);
+
+    // Exercise 10: total value of purchases; also eliminating duplicates
+    set<Order,Sort_by_name<Order>> so;
+    typedef vector<Order>::iterator Viter;
+    for (Viter it = vo_merge.begin(); it!=vo_merge.end(); ++it)
+        so.insert(*it);
+
+    // Print to demonstrate how duplicates were eliminated; also calculate
+    // total value of Purchases
+    cout << "---------------------------------\n\n";
+    double val_t = 0;
+    for (set<Order>::iterator it = so.begin(); it != so.end(); ++it) {
+        cout << *it << '\n';
+        for (int i = 0; i<(*it).n_purchases(); ++i)
+            val_t += (*it).purchase(i).count() * (*it).purchase(i).unit_price();
+        cout << "Running total so far: " << val_t << "\n\n";
+    }
 }
 catch (Range_error& re) {
     cerr << "bad index: " << re.index << "\n";
