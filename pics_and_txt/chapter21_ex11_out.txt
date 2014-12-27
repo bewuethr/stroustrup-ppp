@@ -1,0 +1,24 @@
+Benjamin Wüthrich
+Schönholzweg 33, 8409 Winterthur, Switzerland
+26.12.2014
+iPhone | 419.25 | 2
+Nexus 5 | 230.1 | 5
+
+Kara Forrest
+#8 Seagull Condominiums, Cayman Islands
+9.2.2015
+Italian Greyhound | 999.99 | 1
+Dog toy | 5.5 | 20
+Dog food | 1.1 | 10
+
+Charles Miller
+160 Penn Avenue, Washington
+1.1.1980
+Test item | 150 | 1
+
+Johnny Depp
+Hollywood
+7.7.1980
+One item | 150.5 | 1
+Two items | 11.1 | 2
+
