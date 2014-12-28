@@ -135,6 +135,20 @@ struct Sort_by_address {
 
 //------------------------------------------------------------------------------
 
+// appends Orders in fname to container c
+template<class Cont>
+void read_orders_from_file(Cont& c, const string& fname)
+{
+    ifstream ifs(fname.c_str());
+    if (!ifs) error("can't open file ",fname);
+    Order o;
+    while (ifs>>o) {
+        c.push_back(o);
+    }
+}
+
+//------------------------------------------------------------------------------
+
 // writes orders in [first,last) to file fname
 template<class Iter>
 void write_orders_to_file(Iter first, Iter last, const string& fname)
@@ -146,6 +160,11 @@ void write_orders_to_file(Iter first, Iter last, const string& fname)
         ++first;
     }
 }
+
+//------------------------------------------------------------------------------
+
+// return total value of orders in file
+double get_value(const string& fname);
 
 //------------------------------------------------------------------------------
 

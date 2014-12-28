@@ -126,5 +126,19 @@ istream& operator>>(istream& is, Order& o)
 }
 
 //------------------------------------------------------------------------------
+
+double get_value(const string& fname)
+{
+    vector<Order> vo;
+    read_orders_from_file(vo,fname);
+    double val_t = 0;
+    for (vector<Order>::iterator it = vo.begin(); it != vo.end(); ++it) {
+        for (int i = 0; i<(*it).n_purchases(); ++i)
+            val_t += (*it).purchase(i).count() * (*it).purchase(i).unit_price();
+    }
+    return val_t;
+}
+
+//------------------------------------------------------------------------------
     
 }   // namespace Order

@@ -75,6 +75,14 @@ private:
 
 //------------------------------------------------------------------------------
 
+struct File_query_window : Quit_window {
+    File_query_window();
+private:
+
+};
+
+//------------------------------------------------------------------------------
+
 } // of namespace Graph_lib
 
 #endif // SIMPLE_WINDOW_GUARD
