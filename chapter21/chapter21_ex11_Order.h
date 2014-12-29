@@ -168,6 +168,10 @@ double get_value(const string& fname);
 
 //------------------------------------------------------------------------------
 
+bool file_check(const string& fname);
+
+//------------------------------------------------------------------------------
+
 }   // namespace Order
 
 #endif // ORDER_H_INCLUDED

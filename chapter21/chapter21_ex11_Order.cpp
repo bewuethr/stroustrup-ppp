@@ -140,5 +140,24 @@ double get_value(const string& fname)
 }
 
 //------------------------------------------------------------------------------
+
+bool file_check(const string& fname)
+{
+    if (fname=="") {
+        cout << "\nFile name is empty!\n\n";
+        return false;
+    }
+
+    // test if file exists
+    ifstream ifs(fname.c_str());
+    if (!ifs) {
+        cout << "\nFile " << fname << " doesn't exist!\n\n";
+        return false;
+    }
+
+    return true;
+}
+
+//------------------------------------------------------------------------------
     
 }   // namespace Order

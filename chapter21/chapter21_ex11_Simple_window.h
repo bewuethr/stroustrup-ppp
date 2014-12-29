@@ -78,7 +78,30 @@ private:
 struct File_query_window : Quit_window {
     File_query_window();
 private:
+    // widgets
+    Multiline_out_box ob_list;  // where orders will be listed
+    In_box ib_fname;            // file name
+    In_box ib_cname;            // customer name
+    Button list_button;         // list the orders
+    Button value_button;        // display the total value
+    Out_box ob_value;           // where value will be displayed
+    Text status;                // status and error messages
 
+    // other functions
+    int fill_vector();
+
+    // actions invoked by callbacks
+    void list_pressed();
+    void value_pressed();
+
+    // callbacks
+    static void cb_listpushed(Address, Address pw) { reference_to<File_query_window>(pw).list_pressed(); }
+    static void cb_valuepushed(Address, Address pw) { reference_to<File_query_window>(pw).value_pressed(); }
+
+    // data members
+    string fname;   // input file name
+    string cname;   // customer name for filter
+    vector<Order::Order> vo;
 };
 
 //------------------------------------------------------------------------------

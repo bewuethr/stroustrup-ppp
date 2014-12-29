@@ -181,4 +181,80 @@ void Order_enter_window::enter_pressed()
 
 //------------------------------------------------------------------------------
 
+File_query_window::File_query_window()
+    :Quit_window(Point(395,50),810,800,"Order file query"),
+    ob_list(Point(20,20),510,y_max()-40,""),
+    ib_fname(Point(x_max()-170,40),150,20,"File name"),
+    ib_cname(Point(x_max()-170,75),150,20,"Customer name"),
+    list_button(Point(x_max()-260,110),110,20,"List orders",cb_listpushed),
+    value_button(Point(x_max()-130,110),110,20,"Get total value",cb_valuepushed),
+    ob_value(Point(x_max()-170,160),150,20,"Total value"),
+    status(Point(x_max()-260,210),""),
+    vo()
+{
+    attach(ob_list);
+    ob_list.set_textsize(10);
+    attach(ib_fname);
+    attach(ib_cname);
+    attach(list_button);
+    attach(value_button);
+    attach(ob_value);
+    status.set_color(Color::red);
+    attach(status);
+}
+
+//------------------------------------------------------------------------------
+
+// return -1 in case of problem, 0 otherwise
+int File_query_window::fill_vector()
+{
+    fname = ib_fname.get_string();
+    if (!Order::file_check(fname)) {
+        status.set_label("Please enter name of existing file");
+        redraw();
+        return -1;
+    }
+    cname = ib_cname.get_string();
+
+    vo.clear();
+    Order::read_orders_from_file(vo,fname);
+}
+
+//------------------------------------------------------------------------------
+
+void File_query_window::list_pressed()
+{
+    int i = fill_vector();
+    if (i==-1) return;
+    string output;
+    ostringstream oss;
+    for (int i = 0; i<vo.size(); ++i) {
+        if (cname=="" || cname==vo[i].name())
+            oss << vo[i] << '\n';
+    }
+    ob_list.put(oss.str());
+    status.set_label("");
+    redraw();
+}
+
+//------------------------------------------------------------------------------
+
+void File_query_window::value_pressed()
+{
+    int i = fill_vector();
+    if (i==-1) return;
+    double val_t = 0;
+    for (int i = 0; i<vo.size(); ++i) {
+        if (cname=="" || cname==vo[i].name()) {
+            for (int j = 0; j<vo[i].n_purchases(); ++j)
+            val_t += vo[i].purchase(j).count() * vo[i].purchase(j).unit_price();
+        }
+    }
+    ostringstream oss;
+    oss << val_t;
+    ob_value.put(oss.str());
+}
+
+//------------------------------------------------------------------------------
+
 } // Graph_lib
