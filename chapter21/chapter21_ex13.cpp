@@ -93,14 +93,10 @@ map<string,int> clean_txt(const string& fname)
         Iter q = p;
         ++q;
         while (q != words.end()) {
-            Iter r = q; // extra iterator because erasing invalidates iterators
-            if (q->first==p->first+"s" && p->first.size()>1) {
-                p->second += q->second;
-                q->second = 0;
-            }
-            ++q;
-            if (r->second == 0) // word should be erased
-                words.erase(r);
+            if (q->first==p->first+"s" && p->first.size()>1)
+                q = words.erase(q); // increases q
+            else
+                ++q;
         }
     }
 
