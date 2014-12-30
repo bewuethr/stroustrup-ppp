@@ -39,6 +39,9 @@ map<string,int> clean_txt(const string& fname)
             ++words["will"];
             ++words["not"];
         }
+        else if (w=="'" || w.size()==2 && w[0]=='\'')  {
+            // do nothing, don't add word
+        }
         else if (w.size()>=3 && *(w.end()-2)=='\'') {
             switch (w.back()) {
             case 'd':
