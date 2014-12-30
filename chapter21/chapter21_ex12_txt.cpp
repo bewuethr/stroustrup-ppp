@@ -127,8 +127,6 @@ try {
         }
 
     }
-    //Order_enter_window oewin;
-    //return gui_main();
 }
 catch (exception& e) {
     cerr << "exception: " << e.what() << '\n';
