@@ -257,4 +257,170 @@ void File_query_window::value_pressed()
 
 //------------------------------------------------------------------------------
 
+Text_query_window::Text_query_window()
+    :Quit_window(Point(395,50),810,800,"Text query"),
+    ob_list(Point(20,20),510,y_max()-40,""),
+    ib_fname(Point(x_max()-190,40),75,20,"File name"),
+    load_button(Point(x_max()-95,40),75,20,"Load file",cb_loadpushed),
+    ib_word(Point(x_max()-190,75),75,20,"Word"),
+    word_count_button(Point(x_max()-95,75),75,20,"Get count",cb_countpushed),
+    ib_char(Point(x_max()-190,110),75,20,"First letter"),
+    first_char_button(Point(x_max()-95,110),75,20,"Get words",cb_firstchpushed),
+    ib_length(Point(x_max()-190,145),75,20,"Word length"),
+    length_button(Point(x_max()-95,145),75,20,"Get words",cb_lengthpushed),
+    most_freq_button(Point(x_max()-190,180),170,20,"Get most frequent word",cb_freqpushed),
+    longest_button(Point(x_max()-190,215),170,20,"Get longest word",cb_longpushed),
+    shortest_button(Point(x_max()-190,250),170,20,"Get shortest word",cb_shortpushed),
+    fname(),
+    msi()
+{
+    attach(ob_list);
+    attach(ib_fname);
+    attach(load_button);
+    attach(ib_word);
+    attach(word_count_button);
+    attach(ib_char);
+    attach(first_char_button);
+    attach(ib_length);
+    attach(length_button);
+    attach(most_freq_button);
+    attach(longest_button);
+    attach(shortest_button);
+}
+
+//------------------------------------------------------------------------------
+
+bool Text_query_window::file_loaded()
+{
+    if (msi.size() == 0) {
+        ob_list.put("No text loaded!");
+        redraw();
+        return false;
+    }
+    return true;
+}
+
+
+//------------------------------------------------------------------------------
+
+void Text_query_window::load_file()
+{
+    fname = ib_fname.get_string();
+    if (fname=="") {
+        ob_list.put("File name is empty!");
+        redraw();
+        return;
+    }
+
+    // test if file exists
+    ifstream ifs(fname.c_str());
+    if (!ifs) {
+        ob_list.put("File '" + fname + "' doesn't exist!");
+        redraw();
+        return;
+    }
+
+    // load file
+    msi = Text_query::clean_txt(fname);
+    ob_list.put("File '" + fname + "' loaded");
+    redraw();
+}
+
+//------------------------------------------------------------------------------
+
+void Text_query_window::get_n_occurrences()
+{
+    if (!file_loaded())
+        return;
+    string s = ib_word.get_string();
+    if (s == "") {
+        ob_list.put("No word entered!");
+        redraw();
+        return;
+    }
+    int n = Text_query::num_of_occurrences(s,msi);
+    ostringstream oss;
+    oss << "'" << s << "' occurs " << n << " time" << (n==1?"":"s");
+    ob_list.put(oss.str());
+    redraw();
+}
+
+//------------------------------------------------------------------------------
+
+void Text_query_window::get_start_with()
+{
+    if (!file_loaded())
+        return;
+    string s = ib_char.get_string();
+    if (s == "") {
+        ob_list.put("No character entered!");
+        redraw();
+        return;
+    }
+    char ch = s.front();
+    vector<string> vs = Text_query::start_with(ch,msi);
+    ostringstream oss;
+    oss << "Words starting with '" << ch << "':\n";
+    for (int i = 0; i<vs.size(); ++i)
+        oss << vs[i] << '\n';
+    ob_list.put(oss.str());
+    redraw();
+}
+
+//------------------------------------------------------------------------------
+
+void Text_query_window::get_has_length()
+{
+    if (!file_loaded())
+        return;
+    int n = ib_length.get_int();
+    if (n == -999999) {
+        ob_list.put("No number entered!");
+        redraw();
+        return;
+    }
+    vector<string> vs = Text_query::has_length(n,msi);
+    ostringstream oss;
+    oss << "Words with " << n << " characters:\n";
+    for (int i = 0; i<vs.size(); ++i)
+        oss << vs[i] << '\n';
+    ob_list.put(oss.str());
+    redraw();
+}
+
+//------------------------------------------------------------------------------
+
+void Text_query_window::get_most_frequent()
+{
+    if (!file_loaded())
+        return;
+    string s = Text_query::most_frequent(msi);
+    ob_list.put("The most frequent word is '" + s + "'.");
+    redraw();
+}
+
+//------------------------------------------------------------------------------
+
+void Text_query_window::get_longest()
+{
+    if (!file_loaded())
+        return;
+    string s = Text_query::longest(msi);
+    ob_list.put("The longest word is '" + s + "'.");
+    redraw();
+}
+
+//------------------------------------------------------------------------------
+
+void Text_query_window::get_shortest()
+{
+    if (!file_loaded())
+        return;
+    string s = Text_query::shortest(msi);
+    ob_list.put("The shortest word is '" + s + "'.");
+    redraw();
+}
+
+//------------------------------------------------------------------------------
+
 } // Graph_lib

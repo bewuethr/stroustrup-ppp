@@ -9,6 +9,7 @@
 #include "chapter21_ex11_GUI.h"    // for Simple_window only (doesn't really belong in Window.h)
 #include "chapter21_ex11_Graph.h"
 #include "chapter21_ex11_Order.h"
+#include "chapter21_ex14_tq.h"
 
 namespace Graph_lib {;
 
@@ -102,6 +103,51 @@ private:
     string fname;   // input file name
     string cname;   // customer name for filter
     vector<Order::Order> vo;
+};
+
+//------------------------------------------------------------------------------
+
+struct Text_query_window : Quit_window {
+    Text_query_window();
+private:
+    // widgets
+    Multiline_out_box ob_list;  // where words will be listed
+    In_box ib_fname;            // file name
+    Button load_button;         // load file
+    In_box ib_word;             // word to look for
+    Button word_count_button;   // get count for word in ib_word
+    In_box ib_char;             // first character to look for
+    Button first_char_button;   // get words starting character from ib_char
+    In_box ib_length;           // length of word
+    Button length_button;       // get words of length in ib_length
+    Button most_freq_button;    // get most frequent word
+    Button longest_button;      // get longest word
+    Button shortest_button;     // get shortest word
+
+    // other functions$
+    bool file_loaded();
+
+    // actions invoked by callbacks
+    void load_file();
+    void get_n_occurrences();
+    void get_start_with();
+    void get_has_length();
+    void get_most_frequent();
+    void get_longest();
+    void get_shortest();
+
+    // callbacks
+    static void cb_loadpushed(Address, Address pw) { reference_to<Text_query_window>(pw).load_file(); }
+    static void cb_countpushed(Address, Address pw) { reference_to<Text_query_window>(pw).get_n_occurrences(); }
+    static void cb_firstchpushed(Address, Address pw) { reference_to<Text_query_window>(pw).get_start_with(); }
+    static void cb_lengthpushed(Address, Address pw) { reference_to<Text_query_window>(pw).get_has_length(); }
+    static void cb_freqpushed(Address, Address pw) { reference_to<Text_query_window>(pw).get_most_frequent(); }
+    static void cb_longpushed(Address, Address pw) { reference_to<Text_query_window>(pw).get_longest(); }
+    static void cb_shortpushed(Address, Address pw) { reference_to<Text_query_window>(pw).get_shortest(); }
+
+    // data members
+    string fname;           // input file name
+    map<string,int> msi;    // map with words and word count
 };
 
 //------------------------------------------------------------------------------
