@@ -76,6 +76,38 @@ Line::Line(Point p1, Point p2)    // construct a line from two points
 
 //------------------------------------------------------------------------------
 
+void Arrow::draw_lines() const
+{
+    Line::draw_lines();
+
+    // add arrowhead: p2 and two points
+    double line_len =
+        sqrt(double(pow(point(1).x-point(0).x,2) + pow(point(1).y-point(0).y,2)));  // length of p1p2
+
+    // coordinates of the a point on p1p2 with distance 8 from p2
+    double pol_x = 8/line_len*point(0).x + (1-8/line_len)*point(1).x;
+    double pol_y = 8/line_len*point(0).y + (1-8/line_len)*point(1).y;
+
+    // pl is 4 away from p1p2 on the "left", pl_pol is orthogonal to p1p2
+    double pl_x = pol_x + 4/line_len*(point(1).y-point(0).y);
+    double pl_y = pol_y + 4/line_len*(point(0).x-point(1).x);
+
+    // pr is 4 away from p1p2 on the "right", pr_pol is orthogonal to p1p2
+    double pr_x = pol_x + 4/line_len*(point(0).y-point(1).y);
+    double pr_y = pol_y + 4/line_len*(point(1).x-point(0).x);
+
+    // draw arrowhead - is always filled in line color
+    if (color().visibility()) {
+        fl_begin_complex_polygon();
+        fl_vertex(point(1).x,point(1).y);
+        fl_vertex(pl_x,pl_y);
+        fl_vertex(pr_x,pr_y);
+        fl_end_complex_polygon();
+    }
+}
+
+//------------------------------------------------------------------------------
+
 void Lines::add(Point p1, Point p2)
 {
     Shape::add(p1);
@@ -433,6 +465,118 @@ Point sw(const Circle& c)
 Point nw(const Circle& c)
 {
     return Point(c.center().x-c.radius()/sqrt(2),c.center().y-c.radius()/sqrt(2));
+}
+
+//------------------------------------------------------------------------------
+
+void Ellipse::draw_lines() const
+{
+   if (fill_color().visibility()) {	// fill
+		fl_color(fill_color().as_int());
+		fl_pie(point(0).x,point(0).y,w+w-1,h+h-1,0,360);
+		fl_color(color().as_int());	// reset color
+	}
+
+	if (color().visibility()) {
+		fl_color(color().as_int());
+		fl_arc(point(0).x,point(0).y,w+w,h+h,0,360);
+	}
+}
+
+//------------------------------------------------------------------------------
+
+Point n(const Ellipse& e)
+{
+    return Point(e.center().x,e.center().y-e.minor());
+}
+
+//------------------------------------------------------------------------------
+
+Point s(const Ellipse& e)
+{
+    return Point(e.center().x,e.center().y+e.minor());
+}
+
+//------------------------------------------------------------------------------
+
+Point e(const Ellipse& e)
+{
+    return Point(e.center().x+e.major(),e.center().y);
+}
+
+//------------------------------------------------------------------------------
+
+Point w(const Ellipse& e)
+{
+    return Point(e.center().x-e.major(),e.center().y);
+}
+
+//------------------------------------------------------------------------------
+
+Point center(const Ellipse& e)
+{
+    return e.center();
+}
+
+//------------------------------------------------------------------------------
+
+Point ne(const Ellipse& e)
+{
+    int dif = round(e.major()*e.minor() * sqrt(1/(pow(e.major(),2)+pow(e.minor(),2))));
+    return Point(e.center().x+dif,e.center().y-dif);
+}
+
+//------------------------------------------------------------------------------
+
+Point se(const Ellipse& e)
+{
+    int dif = round(e.major()*e.minor() * sqrt(1/(pow(e.major(),2)+pow(e.minor(),2))));
+    return Point(e.center().x+dif,e.center().y+dif);
+}
+
+//------------------------------------------------------------------------------
+
+Point sw(const Ellipse& e)
+{
+    int dif = round(e.major()*e.minor() * sqrt(1/(pow(e.major(),2)+pow(e.minor(),2))));
+    return Point(e.center().x-dif,e.center().y+dif);
+}
+
+//------------------------------------------------------------------------------
+
+Point nw(const Ellipse& e)
+{
+    int dif = round(e.major()*e.minor() * sqrt(1/(pow(e.major(),2)+pow(e.minor(),2))));
+    return Point(e.center().x-dif,e.center().y-dif);
+}
+
+//------------------------------------------------------------------------------
+
+Text_ellipse::Text_ellipse(Point p, string label)
+    :Ellipse(p,5,30),lab(p,label)
+{
+    set_major(lab.label().size()*5 + 15);
+    set_fill_color(Color::yellow);
+    set_style(Line_style(Line_style::solid,2));
+    lab.set_font_size(18);
+    int dx = lab.label().size()*4;
+    lab.move(-dx,lab.font_size()/2);
+}
+
+//------------------------------------------------------------------------------
+
+void Text_ellipse::draw_lines() const
+{
+    Ellipse::draw_lines();
+    lab.draw();
+}
+
+//------------------------------------------------------------------------------
+
+void Text_ellipse::move(int dx, int dy)
+{
+    Ellipse::move(dx,dy);
+    lab.move(dx,dy);
 }
 
 //------------------------------------------------------------------------------

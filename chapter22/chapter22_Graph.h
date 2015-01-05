@@ -221,6 +221,13 @@ struct Line : Shape {            // a Line is a Shape defined by two Points
 
 //------------------------------------------------------------------------------
 
+struct Arrow : Line {
+    Arrow(Point p1, Point p2) :Line(p1,p2) { }
+    void draw_lines() const;
+};
+
+//------------------------------------------------------------------------------
+
 struct Rectangle : Shape {
     Rectangle(Point xy, int ww, int hh) : w(ww), h(hh)
     {
@@ -363,6 +370,63 @@ Point ne(const Circle& c);
 Point se(const Circle& c);
 Point sw(const Circle& c);
 Point nw(const Circle& c);
+
+//------------------------------------------------------------------------------
+
+struct Ellipse : Shape {
+    Ellipse(Point p, int ww, int hh)	// center, min, and max distance from center
+        :w(ww), h(hh) {
+        add(Point(p.x-ww,p.y-hh));
+    }
+
+    void draw_lines() const;
+
+    Point center() const { return Point(point(0).x+w,point(0).y+h); }
+    Point focus1() const {
+        if (h<=w)// foci are on the x-axis:
+            return Point(center().x+int(sqrt(double(w*w-h*h))),center().y);
+        else	// foci are on the y-axis:
+            return Point(center().x,center().y+int(sqrt(double(h*h-w*w))));
+    }
+
+    Point focus2() const {
+        if (h<=w)
+            return Point(center().x-int(sqrt(double(w*w-h*h))),center().y);
+        else
+            return Point(center().x,center().y-int(sqrt(double(h*h-w*w))));
+    }
+
+    void set_major(int ww) { set_point(0,Point(center().x-ww,center().y-h)); w = ww; }
+    int major() const { return w; }
+    void set_minor(int hh) { set_point(0,Point(center().x-w,center().y-hh)); h = hh; }
+    int minor() const { return h; }
+private:
+    int w;
+    int h;
+};
+
+//------------------------------------------------------------------------------
+
+Point n(const Ellipse& e);
+Point s(const Ellipse& e);
+Point e(const Ellipse& e);
+Point w(const Ellipse& e);
+Point center(const Ellipse& e);
+Point ne(const Ellipse& e);
+Point se(const Ellipse& e);
+Point sw(const Ellipse& e);
+Point nw(const Ellipse& e);
+
+//------------------------------------------------------------------------------
+
+struct Text_ellipse : Ellipse {
+    Text_ellipse(Point p, string label);
+    void draw_lines() const;
+    void move(int dx, int dy);
+    string get_label() const { return lab.label(); }
+private:
+    Text lab;
+};
 
 //------------------------------------------------------------------------------
 
