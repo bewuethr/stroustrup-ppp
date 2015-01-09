@@ -39,3 +39,6 @@ Thumbs.db
 *.filters
 **/Debug
 **/Release
+
+# Large test file
+pics_and_txt/chapter23_ex01_in3.txt
