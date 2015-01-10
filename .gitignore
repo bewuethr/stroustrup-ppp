@@ -40,5 +40,6 @@ Thumbs.db
 **/Debug
 **/Release
 
-# Large test file
+# Large input files
 pics_and_txt/chapter23_ex01_in3.txt
+pics_and_txt/chapter23_ex04_in.txt
