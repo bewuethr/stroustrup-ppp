@@ -3,6 +3,10 @@
 // address lines, several messages with the same address and/or same subject,
 // empty messages, files containing no ---- lines
 
+// Exercise 2: add a multimap that holds subjects; let the program take an input
+// string from the keyboard and print out every message with that string as its
+// subject
+
 #include<string>
 #include<vector>
 #include<map>
@@ -23,6 +27,15 @@ public:
     Line_iter begin() const { return first; }
     Line_iter end() const { return last; }
 };
+
+//------------------------------------------------------------------------------
+
+ostream& operator<<(ostream& os, const Message& m)
+{
+    for (Line_iter p = m.begin(); p!=m.end(); ++p)
+        os << *p << '\n';
+    return os;
+}
 
 //------------------------------------------------------------------------------
 
@@ -111,12 +124,10 @@ int main()
     string fname;
     cin >> fname;
     cin.ignore();   // get rid of \n
-    if (fname=="1") fname = "pics_and_txt/chapter23_ex01_in1.txt";
     Mail_file mfile(fname);
 
     // first gather messages from each sender together in a multimap
     multimap<string,const Message*> sender;
-
     for (Mess_iter p = mfile.begin(); p!=mfile.end(); ++p) {
         const Message& m = *p;
         string s;
@@ -129,9 +140,24 @@ int main()
     cout << "Enter sender: ";
     string sname;
     getline(cin,sname);
-    if (sname=="1") sname = "John Doe <jdoe@machine.example>";
     typedef multimap<string,const Message*>::const_iterator MCI;
     pair<MCI,MCI> pp = sender.equal_range(sname);
     for (MCI p = pp.first; p!=pp.second; ++p)
         cout << find_subject(p->second) << '\n';
+
+    // gather messages by subject in a multimap
+    multimap<string,const Message*> subjects;
+    for (Mess_iter p = mfile.begin(); p!=mfile.end(); ++p) {
+        const Message& m = *p;
+        string s = find_subject(&m);
+        if (s!="") subjects.insert(make_pair(s,&m));
+    }
+
+    // ask for subject
+    cout << "Enter subject: ";
+    string sub;
+    getline(cin,sub);
+    pp = subjects.equal_range(sub);
+    for (MCI p = pp.first; p!=pp.second; ++p)
+        cout << *p->second << '\n';
 }
