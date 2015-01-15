@@ -1,4 +1,4 @@
-// Chapter 23, Try This 1: replace 333 in example with 10
+// Chapter 24, Try This 1: replace 333 in example with 10
 
 #include<iostream>
 #include<iomanip>
