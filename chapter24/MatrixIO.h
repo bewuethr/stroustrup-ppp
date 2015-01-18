@@ -15,7 +15,7 @@ template<class T> std::ostream& operator<<(std::ostream& os, const Matrix<T>& v)
         os << v(i);
     }
 
-    os << '}';
+    os << "  }";
     return os;
 }
 
