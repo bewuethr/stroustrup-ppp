@@ -1,8 +1,7 @@
 // Chapter 24, exercise 1: write a triple() function for a.apply(f) and for
 // apply(f,a) to triple the elements of an array { 1 2 3 4 5 }. Define a single
 // triple() function that can be used for both a.apply(triple) and
-// apply(triple,a). The last version is not a great idea because it modifies
-// the Matrix if called as broadcast function.
+// apply(triple,a).
 
 #include<iostream>
 #include "Matrix.h"
@@ -47,7 +46,7 @@ try
 
     m2.apply(triple);
     cout << "m2 after m2.apply(triple):\t\t" << m2 << '\n';
-    Matrix<int> m3 = m2.apply(triple);
+    Matrix<int> m3 = apply(triple,m2);
     cout << "m2 after m3 = apply(triple,m2):\t\t" << m2 << '\n';
     cout << "m3:\t\t\t\t\t" << m3 << '\n';
 }
