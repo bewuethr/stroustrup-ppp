@@ -7,7 +7,6 @@
 #include<iostream>
 #include "Matrix.h"
 #include "MatrixIO.h"
-#include<cmath>
 
 using namespace std;
 using namespace Numeric_lib;
