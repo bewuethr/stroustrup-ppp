@@ -1,5 +1,6 @@
 
-#include <iostream>
+#include<iostream>
+#include<iomanip>
 #include "Matrix.h"
 
 namespace Numeric_lib {
@@ -10,11 +11,8 @@ template<class T> std::ostream& operator<<(std::ostream& os, const Matrix<T>& v)
 {
     os << '{';
 
-    for (Index i = 0; i<v.dim1(); ++i) {
-        os << "  ";
-        os << v(i);
-    }
-
+    for (Index i = 0; i<v.dim1(); ++i)
+        os << "  " << setw(5) << setprecision(3) << v(i);
     os << "  }";
     return os;
 }
