@@ -1,0 +1,10 @@
+The Tiny Encryption Algorithm is one of the fastest and most efficient cryptographic algorithms in existence.
+It was developed by David Wheeler and Roger Needham at the Computer Laboratory of Cambridge University.
+It is a Feistel cipher which uses operations from mixed (orthogonal) algebraic groups - XOR, ADD and SHIFT in this case.
+This is a very clever way of providing Shannon's twin properties of diffusion and confusion which are
+necessary for a secure block cipher, without the explicit need for P-boxes and S-boxes respectively.
+It encrypts 64 data bits at a time using a 128-bit key. It seems highly resistant to differential
+cryptanalysis, and achieves complete diffusion (where a one bit difference in the plaintext will
+cause approximately 32 bit differences in the ciphertext) after only six rounds. Performance on a
+modern desktop computer or workstation is very impressive.
+000000
