@@ -24,10 +24,9 @@ bool binary_search(Iter first, Iter last, const T& val)
     else if (val < *p)
         return binary_search(first,p,val);
     else {  // *p < val
-        ++p;
-        if (p==last)
-            return false;
-        return binary_search(--p,last,val);
+        if (distance(p,last) == 1)
+            return false;   // sequence has only 1 element, smaller than value
+        return binary_search(p,last,val);
     }
 }
 
