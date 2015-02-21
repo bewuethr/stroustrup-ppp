@@ -1,0 +1,23 @@
+> = 2
+> = 1
+> = -1
+> = 1
+> = 2
+> = 0.5
+> divide by zero
+> = 1
+> %: divide by zero
+> = 2
+> = 9
+> = 21
+> = 5
+> = 15
+> x declared twice
+> get: undefined variable bad
+> get: undefined variable y
+> = -9
+> = 1
+> primary expected
+> ')' expected
+> name expected in declaration
+> = missing in declaration of y
