@@ -6,6 +6,7 @@
 
 #include <FL/Fl_GIF_Image.H>
 #include <FL/Fl_JPEG_Image.H>
+#include "std_lib_facilities.h"
 #include "Graph.h"
 
 //------------------------------------------------------------------------------
@@ -368,7 +369,7 @@ bool can_open(const string& s)
 // check if a file named s exists and can be opened for reading
 {
     ifstream ff(s.c_str());
-    return ff;
+    return ff ? true : false;
 }
 
 //------------------------------------------------------------------------------
