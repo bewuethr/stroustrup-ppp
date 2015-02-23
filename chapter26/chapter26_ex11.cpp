@@ -5,7 +5,10 @@
 //
 // Dimensions way too big for stupid methods (takes forever) and memory (matrix
 // of doubles with 100,000 elements per dimensions: 80 GB!), hence reduced
-// number of elements and allocated on heap
+// number of elements
+//
+// Also worth to mention: the version in the book passes the matrices by value,
+// leading to a lot of copies and unusably slow performance
 
 #include<ctime>
 #include<iostream>
@@ -28,18 +31,18 @@ inline int randint(int min, int max) { return randint(max-min)+min; }
 //------------------------------------------------------------------------------
 
 // sum of elements in m[n]
-double row_sum(Matrix<double,2>* m, int n)
+double row_sum(const Matrix<double,2>& m, int n)
 {
     double sum = 0;
-    for (Index i = 0; i<m->dim2(); ++i)
-        sum += (*m)(n,i);
+    for (Index i = 0; i<m.dim2(); ++i)
+        sum += m(n,i);
     return sum;
 }
 
 //------------------------------------------------------------------------------
 
 // sum of elements in m[0:n)
-double row_accum(Matrix<double,2>* m, int n)
+double row_accum(const Matrix<double,2>& m, int n)
 {
     double s = 0;
     for (Index i = 0; i<n; ++i)
@@ -50,12 +53,12 @@ double row_accum(Matrix<double,2>* m, int n)
 //------------------------------------------------------------------------------
 
 // creates random nxn-matrix with elements in range [-10:10)
-Matrix<double,2>* random_matrix(int n)
+Matrix<double,2> random_matrix(int n)
 {
-    Matrix<double,2>* m = new Matrix<double,2>(n,n);
-    for (Index i = 0; i<m->dim1(); ++i)
-        for (Index j = 0; j<m->dim2(); ++j)
-            (*m)(i,j) = randint(-10,10);
+    Matrix<double,2> m(n,n);
+    for (Index i = 0; i<m.dim1(); ++i)
+        for (Index j = 0; j<m.dim2(); ++j)
+            m(i,j) = randint(-10,10);
     return m;
 }
 
@@ -72,16 +75,15 @@ try {
         clock_t t1 = clock();
         if (t1 == clock_t(-1))
             throw exception("sorry, no clock");
-        Matrix<double,2>* m = random_matrix(dims[i]);
+        Matrix<double,2> m = random_matrix(dims[i]);
         vector<double> v;
-        for (Index idx = 0; idx<m->dim1(); ++idx)
+        for (Index idx = 0; idx<m.dim1(); ++idx)
             v.push_back(row_accum(m,idx+1));
         clock_t t2 = clock();
         if (t2 == clock_t(-1))
             throw exception("sorry, clock overflow");
         cout << "Size " << setw(8) << dims[i] << ": "
             << double(t2-t1)/CLOCKS_PER_SEC << " seconds\n";
-        delete m;
     }
 
     dims.push_back(6400);
@@ -93,10 +95,10 @@ try {
         clock_t t1 = clock();
         if (t1 == clock_t(-1))
             throw exception("sorry, no clock");
-        Matrix<double,2>* m = random_matrix(dims[i]);
+        Matrix<double,2> m = random_matrix(dims[i]);
         vector<double> v;
         double sum = 0;
-        for (Index idx = 0; idx<m->dim1(); ++idx) {
+        for (Index idx = 0; idx<m.dim1(); ++idx) {
             sum += row_sum(m,idx);
             v.push_back(sum);
         }
@@ -105,7 +107,6 @@ try {
             throw exception("sorry, clock overflow");
         cout << "Size " << setw(8) << dims[i] << ": "
             << double(t2-t1)/CLOCKS_PER_SEC << " seconds\n";
-        delete m;
     }
 
 }
