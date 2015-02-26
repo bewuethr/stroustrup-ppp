@@ -5,10 +5,6 @@
 #include<string.h>
 #include<stdio.h>
 
-struct A {
-    int x;
-};
-
 char* cat(const char* id, const char* addr)
 {
     int len_id = strlen(id);        /* so it has to be calculated only once */
@@ -23,7 +19,6 @@ char* cat(const char* id, const char* addr)
 
 int main()
 {
-    A a;
     char* id = "scott.meyers";
     char* addr = "aristeia.com";
     char* s = cat(id,addr);
