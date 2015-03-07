@@ -3,6 +3,9 @@
     have the members first, last, pre and suc be ints (indices into the array)
     */
 
+/* By now I'm pretty sure that this wasn't supposed to be solved like this, but
+    rather using a pool of Links. */
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<assert.h>
