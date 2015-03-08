@@ -47,7 +47,7 @@ void test_strcmp(const char* s1, const char* s2)
 
 void test_strcpy(char* s1, const char* s2)
 {
-    printf("Copy '%s' into '%s: ",s2,s1);
+    printf("Copy '%s' into '%s': ",s2,s1);
     strcpy(s1,s2);
     printf("%s\n",s1);
 }
@@ -55,31 +55,33 @@ void test_strcpy(char* s1, const char* s2)
 int main()
 {
     char* s1 = "This is a string";
+    char* s2_1 = "abc";
+    char* s2_2 = "abcd";
+    char* s2_3 = "abd";
+    char s3_1[] = "ABC";
+    char s3_2[] = "abc";
+    char s3_3[] = "ABCD";
+    char s3_4[] = "";
+        
     size_t l1 = strlen(s1);
     printf("Length of '%s': %i\n",s1,l1);
     printf("Length of '': %i\n",strlen(""));
 
     printf("\n");
-    char* s2_1 = "abc";
     test_strcmp(s2_1,s2_1);
     test_strcmp(s2_1,"");
     test_strcmp("",s2_1);
     test_strcmp("","");
 
-    char* s2_2 = "abcd";
     test_strcmp(s2_1,s2_2);
     test_strcmp(s2_2,s2_1);
 
-    char* s2_3 = "abd";
     test_strcmp(s2_2,s2_3);
     test_strcmp(s2_1,s2_3);
 
     printf("\n");
-    char* s3_1 = "ABC";
-    char* s3_2 = "abc";
-    char* s3_3 = "ABCD";
     test_strcpy(s3_1,s3_2);
     test_strcpy(s3_3,s3_2);
-    test_strcpy(s3_1,"");
-    test_strcpy("","");
+    test_strcpy(s3_1,s3_4);
+    test_strcpy(s3_4,s3_4);
 }
