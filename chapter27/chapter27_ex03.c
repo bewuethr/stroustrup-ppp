@@ -245,23 +245,25 @@ int main()
     destroy(names);
 
     /* test error handling */
-    int err_code = init(0);
-    if (err_code==-1) printf("error in init()\n");
-    names = create();
-    err_code = push_front_name(0,"Bjarne");
-    if (err_code==-1) printf("error in push_front()\n");
-    err_code = push_front_name(names,"Bjarne");
-    if (err_code==-1) printf("error in push_front()\n");    /* OK */
-    struct Link* err_ptr = erase(0,0);
-    if (err_ptr==ERROR_PTR) printf("error in erase()\n");
-    err_ptr = erase(names,names->first);
-    if (err_ptr==ERROR_PTR) printf("error in erase()\n"); /* OK */
-    err_code = clear(0);
-    if (err_code==-1) printf("error in clear()\n");
-    err_code = clear(names);
-    if (err_code==-1) printf("error in clear()\n");
-    err_code = destroy(0);
-    if (err_code==-1) printf("error in destroy()\n");
-    err_code = destroy(names);
-    if (err_code==-1) printf("error in destroy()\n");
+    {
+        int err_code = init(0);
+        struct Link* err_ptr = erase(0,0);
+        if (err_code==-1) printf("error in init()\n");
+        names = create();
+        err_code = push_front_name(0,"Bjarne");
+        if (err_code==-1) printf("error in push_front()\n");
+        err_code = push_front_name(names,"Bjarne");
+        if (err_code==-1) printf("error in push_front()\n");    /* OK */
+        if (err_ptr==ERROR_PTR) printf("error in erase()\n");
+        err_ptr = erase(names,names->first);
+        if (err_ptr==ERROR_PTR) printf("error in erase()\n"); /* OK */
+        err_code = clear(0);
+        if (err_code==-1) printf("error in clear()\n");
+        err_code = clear(names);
+        if (err_code==-1) printf("error in clear()\n");
+        err_code = destroy(0);
+        if (err_code==-1) printf("error in destroy()\n");
+        err_code = destroy(names);
+        if (err_code==-1) printf("error in destroy()\n");
+    }
 }
