@@ -11,7 +11,7 @@ vector<int> primes_norm;
 bool is_prime(int n)
 {
     for (int i = 0; primes_norm[i]<=sqrt(n); ++i) {
-        if (n%primes_norm[i]==0)
+        if (n % primes_norm[i] == 0)
             return false;
     }
     return true;
@@ -27,7 +27,9 @@ int main()
     while (primes_norm.size() < n_primes) {
         if (is_prime(i))
             primes_norm.push_back(i);
-        cout << i << endl;
         i+=2;
     }
+
+    for (int i = 0; i < primes_norm.size(); ++i)
+        cout << primes_norm[i] << endl;
 }
