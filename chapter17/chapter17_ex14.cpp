@@ -1,9 +1,9 @@
 // Chapter 17, exercise 14: complete the "list of gods" example from 17.10.1,
-// but this time as a sinlgy-linked list
+// but this time as a singly-linked list
 
 #include "../lib_files/std_lib_facilities.h"
 
-struct List;
+struct List;                                                // helps with relative positioning without prev members
 
 class Link {
 public:
@@ -26,9 +26,9 @@ private:
 };
 
 struct List {
-    List() : first_link(0) { }
-    List(Link* l) : first_link(l) { }
-    Link* first_link;
+    List() : first_link(0) { }                              // default constructor: initialize first link with nullptr
+    List(Link* l) : first_link(l) { }                       // 2nd constructor: initialize first link with l
+    Link* first_link;                                       // pointer that holds the value of the first link for reference
 };
 
 // insert n before this object
