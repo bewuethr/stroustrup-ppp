@@ -1,5 +1,5 @@
 // Chapter 17, exercise 14: complete the "list of gods" example from 17.10.1,
-// but this time as a sinlgy-linked list
+// but this time as a singly-linked list
 
 #include "../lib_files/std_lib_facilities.h"
 
