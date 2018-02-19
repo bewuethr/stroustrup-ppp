@@ -67,14 +67,16 @@ string String_stream::get()
 
 String_stream sstr;
 
+bool issue_found = false; 
+
 // checks if next string is a conjunction
-bool conjunction()
+void conjunction()
 {
     string s = sstr.get();
-    if (s=="and" || s=="or" || s=="but")
-        return true;
-    else
-        return false;
+    bool valid = false;
+    if (s=="and" || s=="or" || s=="but" || s==".") valid = true;
+    if (!valid) issue_found = true;
+    else if (s == ".") sstr.putback(s);
 }
 
 // checks if a string is a noun
@@ -83,8 +85,10 @@ bool noun()
     string s = sstr.get();
     if (s=="birds" || s=="fish" || s=="C++")
         return true;
-    else
-        return false;
+    else {
+		if (s == ".") sstr.putback(s);
+		return false;
+	}
 }
 
 // checks if a string is a verb
@@ -93,8 +97,10 @@ bool verb()
     string s = sstr.get();
     if (s=="rules" || s=="fly" || s=="swim")
         return true;
-    else
-        return false;
+    else {
+		if (s == ".") sstr.putback(s);
+		return false;
+	}
 }
 
 // handles subjects
@@ -110,34 +116,36 @@ bool subject()
 }
 
 // handles sentences
-bool sentence()
+void sentence() 
 {
-    return (subject() && verb());
+	bool s = subject();
+	bool v = verb();
+	if (!s || !v) issue_found = true;
 }
 
-int main()
-try {
-    bool is_ok = false;
-    while (true) {
-        is_ok = sentence(); // is set to true as long as sentence is correct
-        if (!is_ok) cout << "Not OK\n";
-        string s = sstr.get();
-        if (s=="." && is_ok) cout << "OK\n";
-        else {
-            sstr.putback(s);
-            is_ok = conjunction();
-            if (!is_ok) cout << "Not OK\n";
-        }
-    }
-
-}
-catch (exception& e) {
-    cerr << "error: " << e.what() << '\n';
-    keep_window_open();
-    return 1;
-}
-catch (...) {
-    cerr << "Oops: unknown exception!\n";
-    keep_window_open();
-    return 2;
+int main() 
+{
+	try {
+		while (true) {
+			sentence();
+			conjunctions();
+			string s = sstr.get();
+			if (s == "." && issue_found == true) {
+				cerr << "Not OK \n";
+				issue_found = false; 
+			}
+			else if (s == "." && issue_found == false) cout << "OK \n";
+			else sstr.putback(s);									
+		}
+	}
+	catch (exception& e) {
+		cerr << "error: " << e.what() << '\n';
+		keep_window_open();
+		return 1;
+	}
+	catch (...) {
+		cerr << "Oops: unknown exception!\n";
+		keep_window_open();
+		return 2;
+	}
 }
