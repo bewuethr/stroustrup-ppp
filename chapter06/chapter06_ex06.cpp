@@ -44,7 +44,7 @@ private:
 };
 
 String_stream::String_stream()
-    :full(false), buffer(" ") { }
+    :full(false), buffer("") { }
 
 void String_stream::putback(string s)
 {
@@ -60,7 +60,7 @@ string String_stream::get()
         return buffer;
     }
 
-    string s = " ";
+    string s = "";
     cin >> s;
     return s;
 }
@@ -120,13 +120,22 @@ try {
     bool is_ok = false;
     while (true) {
         is_ok = sentence(); // is set to true as long as sentence is correct
-        if (!is_ok) cout << "Not OK\n";
+        if (!is_ok) {
+            cout << "Not OK\n";
+            return 0;
+        }
         string s = sstr.get();
-        if (s=="." && is_ok) cout << "OK\n";
+        if (s == ".") {
+            cout << "OK\n";
+            return 0;
+        }
         else {
             sstr.putback(s);
             is_ok = conjunction();
-            if (!is_ok) cout << "Not OK\n";
+            if (!is_ok) {
+                cout << "Not OK\n";
+                return 0;
+            }
         }
     }
 
