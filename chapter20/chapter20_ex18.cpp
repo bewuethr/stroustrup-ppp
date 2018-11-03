@@ -138,6 +138,7 @@ typename vectr<T,A>::iterator_rc& vectr<T,A>::iterator_rc::operator-=(size_type 
 {
     if (n > curr-first) throw Range_error(curr-n-first);
     curr -= n;
+    return *this;
 }
 
 //------------------------------------------------------------------------------
