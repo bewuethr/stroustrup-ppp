@@ -19,7 +19,6 @@ char* strcopy(const char* s) {
         pc[i] = s[i];
     pc[n] = 0;  // zero-terminated
 
-    delete[] s;
     return pc;
 }
 
