@@ -20,6 +20,15 @@ switched to Visual Studio Community 2013.
 [5]: http://www.codeblocks.org
 [6]: http://www.mingw.org
 
+Notice that some solutions require using an older C++ standard when compiling,
+for example Chapter 17 exercise 4: use something like
+
+```sh
+g++ --std=c++03
+```
+
+to compile (under Linux).
+
 Chapter 1 has no programming exercises, and for Chapter 2 I just went along and
 changed the same file over and over, so these solutions are not here.
 
